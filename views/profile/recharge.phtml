@@ -1,0 +1,52 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Thông tin</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/menu.phtml'; ?>
+                <div class="col-lg-9 info-container">
+                    <div>
+                        <div class="card">
+                            <div class="card-body card-table pb-0">
+                                <h5 class="card-title d-flex align-items-center justify-content-between"><span>Lịch sử
+                                        nạp tiền</span>
+                                    <a href="/nap-tien" class="btn btn-main btn-card-title"><i
+                                            class="fa fa-plus-circle"></i> Nạp tiền
+                                    </a>
+                                </h5>
+                                <table class="table table-hover table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nội dung</th>
+                                            <th>Số tiền</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

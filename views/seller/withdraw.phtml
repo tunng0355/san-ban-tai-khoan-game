@@ -1,0 +1,267 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" class="nuxt-link-active"><i
+                                            class="fad fa-analytics"></i> <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add" class=""><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class=""><i class="fad fa-tags"></i>
+                                        <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders" class=""><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw"
+                                        class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                            class="fad fa-wallet"></i> <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting" class=""><i class="fad fa-cog"></i> <span>Cài
+                                            đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="card">
+                            <div class="card-body card-table">
+                                <h5 class="card-title d-flex align-items-center justify-content-between"><span>Rút
+                                        tiền</span>
+                                    <button data-bs-toggle="modal" data-bs-target="#withdraw"
+                                        class="btn btn-main btn-card-title"><i class="fa fa-plus-circle"></i> Tạo lệnh
+                                    </button>
+                                </h5>
+                                <table class="table table-hover table-borderless mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Trạng thái</th>
+                                            <th>Nhận</th>
+                                            <th>STK</th>
+                                            <th>CTK</th>
+                                            <th>Số tiền</th>
+                                            <th>Phí</th>
+                                            <th>Thực nhận</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($withdraw as $item):?>
+                                        <tr>
+                                            <td>#<?=$item->id;?></td>
+                                            <td><?=StatusRut($item->status);?></td>
+                                            <td><?=StatusNhan($item->nhan);?></td>
+                                            <td><?=$item->stk;?></td>
+                                            <td><?=$item->ctk;?></td>
+                                            <td>
+                                               <?=format_number2($item->quantity);?>
+                                            </td>
+                                            <td>
+                                               <?=Setting::find('phirut');?>%
+                                            </td>
+                                            <td><?=format_number2($item->thucnhan);?></td>
+                                            <td><?=timeago($item->createDate);?></td>
+                                        </tr>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="withdraw" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Tạo lệnh rút tiền</h5> <button type="button" data-bs-dismiss="modal"
+                    aria-label="Close" class="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/seller/withdraw/create" method="POST" next>
+                    <div class="form-group">
+                        <label for="">Số tài khoản:</label>
+                        <input type="text" placeholder="0123456789" name="stk" required="required" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chủ tài khoản:</label>
+                        <input type="text" placeholder="NGUYEN VAN A" name="ctk" required="required" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ngân hàng:</label>
+                        <select class="form-control" name="bank">
+                            <option value="MOMO">
+                                Momo - Ví điện tử Momo
+                            </option>
+                            <option value="VCB">
+                                Vietcombank - Ngân hàng TMCP Ngoại Thương Việt Nam
+                            </option>
+                            <option value="ICB">
+                                VietinBank - Ngân hàng TMCP Công thương Việt Nam
+                            </option>
+                            <option value="BIDV">
+                                BIDV - Ngân hàng TMCP Đầu tư và Phát triển Việt Nam
+                            </option>
+                            <option value="VBA">
+                                Agribank - Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam
+                            </option>
+                            <option value="OCB">
+                                OCB - Ngân hàng TMCP Phương Đông
+                            </option>
+                            <option value="MB">
+                                MBBank - Ngân hàng TMCP Quân đội
+                            </option>
+                            <option value="TCB">
+                                Techcombank - Ngân hàng TMCP Kỹ thương Việt Nam
+                            </option>
+                            <option value="ACB">
+                                ACB - Ngân hàng TMCP Á Châu
+                            </option>
+                            <option value="VPB">
+                                VPBank - Ngân hàng TMCP Việt Nam Thịnh Vượng
+                            </option>
+                            <option value="TPB">
+                                TPBank - Ngân hàng TMCP Tiên Phong
+                            </option>
+                            <option value="STB">
+                                Sacombank - Ngân hàng TMCP Sài Gòn Thương Tín
+                            </option>
+                            <option value="HDB">
+                                HDBank - Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh
+                            </option>
+                            <option value="VCCB">
+                                VietCapitalBank - Ngân hàng TMCP Bản Việt
+                            </option>
+                            <option value="SCB">
+                                SCB - Ngân hàng TMCP Sài Gòn
+                            </option>
+                            <option value="VIB">
+                                VIB - Ngân hàng TMCP Quốc tế Việt Nam
+                            </option>
+                            <option value="SHB">
+                                SHB - Ngân hàng TMCP Sài Gòn - Hà Nội
+                            </option>
+                            <option value="MSB">
+                                MSB - Ngân hàng TMCP Hàng Hải
+                            </option>
+                            <option value="CAKE">
+                                CAKE - TMCP Việt Nam Thịnh Vượng - Ngân hàng số CAKE by VPBank
+                            </option>
+                            <option value="Ubank">
+                                Ubank - TMCP Việt Nam Thịnh Vượng - Ngân hàng số Ubank by VPBank
+                            </option>
+                            <option value="TIMO">
+                                Timo - Ngân hàng số Timo by Ban Viet Bank (Timo by Ban Viet Bank)
+                            </option>
+                            <option value="SGICB">
+                                SaigonBank - Ngân hàng TMCP Sài Gòn Công Thương
+                            </option>
+                            <option value="BAB">
+                                BacABank - Ngân hàng TMCP Bắc Á
+                            </option>
+                            <option value="PVCB">
+                                PVcomBank - Ngân hàng TMCP Đại Chúng Việt Nam
+                            </option>
+                            <option value="Oceanbank">
+                                Oceanbank - Ngân hàng Thương mại TNHH MTV Đại Dương
+                            </option>
+                            <option value="NCB">
+                                NCB - Ngân hàng TMCP Quốc Dân
+                            </option>
+                            <option value="SHBVN">
+                                ShinhanBank - Ngân hàng TNHH MTV Shinhan Việt Nam
+                            </option>
+                            <option value="ABB">
+                                ABBANK - Ngân hàng TMCP An Bình
+                            </option>
+                            <option value="VAB">
+                                VietABank - Ngân hàng TMCP Việt Á
+                            </option>
+                            <option value="NAB">
+                                NamABank - Ngân hàng TMCP Nam Á
+                            </option>
+                            <option value="PGB">
+                                PGBank - Ngân hàng TMCP Xăng dầu Petrolimex
+                            </option>
+                            <option value="VIETBANK">
+                                VietBank - Ngân hàng TMCP Việt Nam Thương Tín
+                            </option>
+                            <option value="BVB">
+                                BaoVietBank - Ngân hàng TMCP Bảo Việt
+                            </option>
+                            <option value="SEAB">
+                                SeABank - Ngân hàng TMCP Đông Nam Á
+                            </option>
+                            <option value="COOPBANK">
+                                COOPBANK - Ngân hàng Hợp tác xã Việt Nam
+                            </option>
+                            <option value="LPB">
+                                LienVietPostBank - Ngân hàng TMCP Bưu Điện Liên Việt
+                            </option>
+                            <option value="DOB">
+                                DongABank - Ngân hàng TMCP Đông Á
+                            </option>
+                            <option value="HSBC">
+                                HSBC - Ngân hàng TNHH MTV HSBC (Việt Nam)
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Số tiền:</label>
+                        <input placeholder="" id="money" oninput="totalRut()" name="quantity" type="tel" value="0" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Thực nhận (Phí <?=Setting::find('phirut');?>%):</label>
+                        <div class="fw-bold text-teal">
+                            <span id="total">0</span>đ
+                        </div>
+                    </div>
+                    <button class="ta-submit btn btn-main w-100" type="submit">Tạo lệnh</button>
+                </form>
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+?>
+<script>
+    function totalRut(){
+        var money = $("#money").val();
+        var money =  money - (money / 100 * <?=Setting::find('phirut');?>); 
+        $("#total").html(money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."));
+    }
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

@@ -1,0 +1,188 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="shop-profile">
+        <!---->
+        <div class="py-3 border-bottom">
+            <div class="ta-container">
+                <div class="d-flex shop-context">
+                    <div class="d-flex align-items-center shop-header">
+                        <div class="avatar"><img title="Ảnh đại diện <?=$users->username;?>"
+                                alt="Ảnh đại diện <?=$users->username;?>" class="rounded-circle img-thumbnail shadow-sm"
+                                src="<?=$users->avatar;?>">
+                        </div>
+                        <div class="info ps-3 pt-2 pt-sm-0">
+                            <h2 class="name mb-1 fw-bold"><?=$users->fullname;?></h2>
+                            <div class="username fs-14 text-muted">@<?=$users->username;?></div>
+                            <div class="social pt-2">
+                                <?php if(!empty($shop->facebook)):?>
+                                <a href="<?=$shop->facebook;?>" target="_blank">
+                                    <img height="30" alt="" class="ta-lz-load ta-lz-loaded"
+                                        src="/img/facebook.png">
+                                </a>
+                                <?php endif;?>
+                                <?php if(!empty($shop->zalo)):?>
+                                <a href="https://zalo.me/<?=$shop->zalo;?>" target="_blank">
+                                    <img height="30" alt="" class="ta-lz-load ta-lz-loaded"
+                                        src="/img/zalo.png">
+                                </a>
+                                <?php endif;?>
+                                <?php if(!empty($shop->facebook)):?>
+                                <div class="d-block d-sm-inline mt-3 mt-sm-0">
+                                    <button class="btn btn-info btn-sm text-white fs-13"><i
+                                            class="fal fa-phone fa-rotate-90"></i> <?=$shop->hotline;?>
+                                    </button>
+                                </div>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="bio fs-14 mb-0 mt-0 mt-sm-3 text-pre-wrap text-main"><?=$shop->content;?></p>
+            </div>
+        </div>
+        <div class="ta-container pt-3">
+            <div class="shop-navigation">
+                <div class="row gx-sm-3 gx-2">
+                    <div class="col-4">
+                        <div class="profile-navigation home"><a href="/shop/<?=$users->username;?>"
+                                class="nuxt-link-active"><i class="fad fa-home"></i> <span class="text">Trang
+                                    chủ</span></a></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="profile-navigation review active"><a href="/shop/<?=$users->username;?>/reviews"
+                                class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                    class="fad fa-star"></i> <span class="text">Đánh giá</span></a></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="profile-navigation community"><a href="/shop/<?=$users->username;?>/community"
+                                class=""><i class="fad fa-flag"></i> <span class="text">Cộng đồng</span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ta-container pt-3">
+            <h4 class="mb-2 fw-bold fs-18">Giao dịch tại Shop</h4>
+            <div class="marquee-text-wrap">
+                <div class="marquee-text-content">
+                    <div class="marquee-text-text" style="animation-duration: 44s;">
+                        <?php foreach ($buy as $marquee):?>
+                        <?php $User = DB::connect()->find("users",['uid'=>$marquee->UserID])->get(); ?>
+                        <?php $Shop = DB::connect()->find("shop",['id'=>$marquee->ShopID])->get(); ?>
+                        <?php $ShopUser = DB::connect()->find("users",['uid'=>$Shop->UserID])->get(); ?>
+                        <div class="py-1 px-2 mx-2 rounded fs-13 d-inline-block bg-light border border-gray"><img
+                                height="25" width="29" alt="" class="rounded-circle pe-1" src="<?=$User->avatar;?>">
+                            <b><?=$User->fullname;?></b> đã mua tài khoản <b><?=Game::type($marquee->game);?>
+                                #<?=$marquee->id;?></b> tại Shop <a href="/shop/<?=$ShopUser->username;?>"
+                                class="fw-bold"><?=$ShopUser->fullname;?></a> với giá <b
+                                class="text-teal"><?=format_number($marquee->price);?>đ</b>
+                        </div>
+                        <?php endforeach;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ta-container pt-3 review-container">
+            <h4 class="page-title">Đánh giá từ người mua</h4>
+            <div class="review-filter mb-2">
+                <div class="row">
+                    <div class="col-md col-sm-4 col-6">
+                        <a href="/shop/<?=$users->username;?>/reviews"
+                            <?=($star == 'all') ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 'all') ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?> ">
+                            <span>Tất
+                                cả</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id])->get();?></b>)</span>
+                        </a>
+                    </div>
+                    <div class="col-md col-sm-4 col-6">
+                        <a href="/shop/<?=$users->username;?>/reviews?rating=5"
+                            <?=($star == 5) ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 5) ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?>  ">
+                            <span>5 Sao</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id,'star'=>5])->get();?></b>)</span>
+                        </a>
+                    </div>
+                    <div class="col-md col-sm-4 col-6">
+                        <a href="/shop/<?=$users->username;?>/reviews?rating=4"
+                            <?=($star == 4) ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 4) ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?>">
+                            <span>4 Sao</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id,'star'=>4])->get();?></b>)</span>
+                        </a>
+                    </div>
+                    <div class="col-md col-sm-4 col-6"><a href="/shop/<?=$users->username;?>/reviews?rating=3"
+                            <?=($star == 3) ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 3) ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?> ">
+                            <span>3 Sao</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id,'star'=>3])->get();?></b>)</span>
+                        </a>
+                    </div>
+                    <div class="col-md col-sm-4 col-6"><a href="/shop/<?=$users->username;?>/reviews?rating=2"
+                            <?=($star == 2) ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 2) ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?> ">
+                            <span>2 Sao</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id,'star'=>2])->get();?></b>)</span>
+                        </a>
+                    </div>
+                    <div class="col-md col-sm-4 col-6">
+                        <a href="/shop/<?=$users->username;?>/reviews?rating=1"
+                            <?=($star == 1) ? 'aria-current="page"' : null;?>
+                            class="btn w-100 mb-3 <?=($star == 1) ? 'nuxt-link-exact-active nuxt-link-active active btn-main' : 'btn-light';?>  ">
+                            <span>1 Sao</span>
+                            <span
+                                class="rating-count">(<b><?=DB::connect()->num_rows("rating", ['ShopID' => $shop->id,'star'=>1])->get();?></b>)
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="shop-reviews min-h-200">
+                <?php $i=0; foreach($rating2 as $ratingx): $i++;?>
+                <?php $users = DB::connect()->find("users", ['uid' => $ratingx->UserID])->get();?>
+                <div class="review mb-3 pb-3">
+                    <div class="user d-flex align-items-center pb-2">
+                        <div class="reviewer-avatar"><img height="45" alt=""
+                                class="rounded-circle ta-lz-load ta-lz-loaded" src="<?=$users->avatar;?>"></div>
+                        <div class="detail ps-2">
+                            <h4 class="name fs-14 mb-1 lh-1-25"><span class="d-block"><?=$users->fullname;?></span></h4>
+                            <div class="ta-rating fs-13">
+                                <?php for ($i=0; $i < 5; $i++): ?>
+                                <?php if($i < $ratingx->star) :?>
+                                <i class="fa fa-star text-warning"></i>
+                                <?php else:?>
+                                <i class="fa fa-star"></i>
+                                <?php endif;?>
+                                <?php endfor;?>
+                            </div>
+                        </div>
+                        <span class="ms-auto text-muted align-self-start fs-13">
+                            <?=timeago($ratingx->createDate);?>
+                        </span>
+                    </div>
+                    <p class="mb-0 fs-13 fw-normal"><?=$ratingx->content;?></p>
+                </div>
+                <?php endforeach;?>
+                <?php if(empty($i)):?>
+                <div class="shop-reviews pt-4 text-center min-h-200">
+                    <div class="icon"><i class="fad fa-star-shooting text-warning fa-5x"></i></div>
+                    <h4 class="fw-bold text-muted mt-3">Chưa có đánh giá!</h4>
+                </div>
+                <?php endif;?>
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

@@ -1,0 +1,77 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Thông tin</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/menu.phtml'; ?>
+                <div class="col-lg-9 info-container">
+                    <div>
+                        <div class="card">
+                            <div class="card-body card-table pb-0">
+                                <h5 class="card-title d-flex align-items-center justify-content-between"><span>Lịch sử
+                                        nạp thẻ
+                                        cào</span> <a href="/nap-the-cao" class="btn btn-main btn-card-title"><i
+                                            class="fa fa-plus-circle"></i> Nạp thẻ
+                                    </a></h5>
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm"><input type="search"
+                                                        placeholder="Tìm kiếm..." class="form-control"> <button
+                                                        class="btn btn-main"><i class="fa fa-search"></i></button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <table class="table table-hover table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Trạng thái</th>
+                                            <th>Nhà mạng</th>
+                                            <th>Thực nhận</th>
+                                            <th>Số Serial</th>
+                                            <th>Mã thẻ</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($card as $col): ?>
+                                    <tr>
+                                        <td>#<?=$col->id;?></td>
+                                        <td><?=Card::status($col->status);?></td>
+                                        <td><?=$col->telco;?></td>
+                                        <td><?=format_number2($col->amount);?></td>
+                                        <td><?=$col->serial;?></td>
+                                        <td><?=$col->pin;?></td>
+                                        <td><?=timeago($col->createDate);?></td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

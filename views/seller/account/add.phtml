@@ -1,0 +1,223 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml'; 
+include_once __DIR__ . '/../../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" class="nuxt-link-active"><i
+                                            class="fad fa-analytics"></i> <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add"
+                                        class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class="nuxt-link-active"><i
+                                            class="fad fa-tags"></i> <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders" class=""><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw" class=""><i class="fad fa-wallet"></i>
+                                        <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting" class=""><i class="fad fa-cog"></i> <span>Cài
+                                            đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="alert alert-info">
+                            - Hiện tại hệ thống <b>TrumAcc.Vn</b> chưa cho phép bán tài khoản Random vì một số lý do,
+                            nên mọi người không đăng bán tài khoản Random, trong tương lai có thể tính năng này sẽ khả
+                            dụng. <br>
+                            - Các <b>tài khoản Random</b> đăng bán sẽ chuyển sang trạng thái khóa.
+                        </div>
+                        <div class="row gx-2">
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/lien-quan.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Liên Quân</div> <a
+                                            href="/seller/account/add/lien-quan" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/genshin-impact.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Genshin Impact</div> <a
+                                            href="/seller/account/add/genshin-impact" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/free-fire.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Free Fire</div> <a
+                                            href="/seller/account/add/free-fire" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/roblox.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Roblox</div> <a
+                                            href="/seller/account/add/roblox" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/ngoc-rong-online.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Ngọc Rồng</div> <a
+                                            href="/seller/account/add/ngoc-rong-online" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/fifa.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Fifa Online</div> <a
+                                            href="/seller/account/add/fifa-online" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/dot-kich.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Đột Kích</div> <a
+                                            href="/seller/account/add/dot-kich" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/pubg-mobile.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">PUBG Mobile</div> <a
+                                            href="/seller/account/add/pubg-mobile" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/lien-minh.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Liên Minh</div> <a
+                                            href="/seller/account/add/lien-minh" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/toc-chien.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Tốc Chiến</div> <a
+                                            href="/seller/account/add/toc-chien" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/zing-speed-mobile.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Zing Speed</div> <a
+                                            href="/seller/account/add/zing-speed-mobile" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div
+                                    class="seller-account d-flex align-items-center position-relative border border-gray p-2 rounded bg-light mb-2">
+                                    <div class="icon"><img height="50" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                            src="https://cdn.trumacc.vn/public/categories/play-together.jpg"></div>
+                                    <div class="ps-2">
+                                        <div class="name fw-bold fs-14">Play Together</div> <a
+                                            href="/seller/account/add/play-together" class="stretched-link fs-13">
+                                            Thêm tài khoản
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../../layouts/footer.phtml'; 
+include_once __DIR__ . '/../../layouts/script.phtml'; 
+include_once __DIR__ . '/../../layouts/end.phtml'; 
+?>

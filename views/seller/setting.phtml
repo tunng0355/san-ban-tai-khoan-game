@@ -1,0 +1,91 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" class="nuxt-link-active"><i
+                                            class="fad fa-analytics"></i> <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add" class=""><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class=""><i class="fad fa-tags"></i>
+                                        <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders" class=""><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw" class=""><i class="fad fa-wallet"></i>
+                                        <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting"
+                                        class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                            class="fad fa-cog"></i> <span>Cài đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Cài đặt</h5>
+                                <form action="/api/seller/setting" method="POST" next>
+                                    <div class="form-group">
+                                        <label for="">Tiểu sử:</label>
+                                        <textarea rows="2" name="content" class="form-control"><?=Shop::my()->content;?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Facebook:</label>
+                                        <input type="url" placeholder="https://www.facebook.com/trumacc.vn"
+                                            required="required" name="facebook" value="<?=Shop::my()->facebook;?>" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Youtube:</label>
+                                        <input type="url" name="Youtube" value="<?=Shop::my()->youtube;?>"placeholder="https://www.youtube.com/@trumacc.vn"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Zalo:</label>
+                                        <input type="phone" name="zalo" placeholder="0123456789" value="<?=Shop::my()->zalo;?>" required="required"
+                                            class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Số điện thoại:</label>
+                                        <input type="phone" name="hotline" value="<?=Shop::my()->hotline;?>" placeholder="0123456789" required="required"
+                                            class="form-control">
+                                    </div>
+                                    <button class="ta-submit btn btn-main w-100" type="submit">Cập nhật</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

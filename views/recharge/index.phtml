@@ -1,0 +1,111 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml';
+include_once __DIR__ . '/../layouts/navbar.phtml';
+// include_once __DIR__ . '/../layouts/menu.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Nạp tiền tài khoản</h2>
+            <div class="row flex-row-reverse">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div data-bs-toggle="tooltip" data-bs-title="Default tooltip" class="card-body">
+                            <h5 class="card-title text-danger"><i class="fad fa-sensor-alert"></i> Lưu ý:</h5>
+                            <p class="mb-0 fs-14">
+                                - Chuyển khoản đúng nộI dung để được cộng tiền nhanh nhất. <br>
+                                - Hạn chế chuyển tiền vào ban đêm nhất là khung giờ từ 12h đêm tới 2h sáng, có thể bị
+                                delay thời gian cộng tiền khá lâu. <br>
+                                - Nạp tiền từ 30s - 15p rồi nhưng chưa có hoặc đợi quá lâu vui lòng nhắn tin với với <a
+                                    href="https://www.facebook.com/trumacc.vn" target="_blank" class="fw-bold">Fanpage
+                                    hỗ trợ</a> tại đây để được hỗ trợ nhanh nhất!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="ta-transfer-content text-center bg-light py-2 px-3 rounded border-dashed mb-3">
+                        <div class="fs-13 text-muted">Nội dung chuyển khoản: </div>
+                        <p class="mb-0 fs-18">
+                            <?php if (Auth::check()): ?>
+                            <strong>tavn72</strong>
+                            <i class="fad text-primary cursor-pointer fa-clone" onclick="copy('tavn72')"></i>
+                            <?php else: ?>
+                            <strong>Đăng nhập để hiển thị</strong>
+                            <?php endif;?>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <?php foreach (Bank::find()->all() as $col): ?>
+
+                        <div class="col-sm-6">
+                            <div class="payment mb-3 bg-white rounded border shadow-sm p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="icon position-relative">
+                                        <div title="Ưu tiên chuyển khoản" class="priority rounded-circle bg-teal"><i
+                                                class="fal fa-arrow-up fs-10 text-white"></i></div>
+                                        <img alt="nap tien trumacc qua <?=Bank::type($col->bank);?>" title="<?=Bank::type($col->bank);?>"
+                                            class="shadow-sm border border-gray" src="/bank/<?=$col->bank;?>.png">
+                                        <?php if(!empty($col->qrcode)):;?>
+                                        <?php if (Auth::check()): ?>
+                                        <button class="btn btn-main btn-qr mt-1 w-100 fs-10" data-bs-toggle="modal"
+                                            data-bs-target="#<?=$col->bank.$col->id;?>"><i class="fal fa-qrcode"></i>
+                                            QR-Code
+                                        </button>
+                                        <?php endif;?>
+                                        <?Php endif;?>
+                                    </div>
+                                    <div class="info ps-3">
+                                        <div class="bank fs-14 text-muted">
+                                            Nạp tiền <?=Bank::type($col->bank);?>
+                                        </div>
+                                        <div class="number fs-17"><strong><?=$col->stk;?></strong>
+                                            <i class="fad text-primary cursor-pointer fa-clone"
+                                                onclick="copy('<?=$col->stk;?>')"></i>
+                                        </div>
+                                        <div class="name fs-15">
+                                            <?=$col->ctk;?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if(!empty($col->qrcode)):;?>
+                        <div class="modal fade" id="<?=$col->bank.$col->id;?>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fw-bold">Quét mã QR</h5> <button type="button"
+                                            data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="text-center"><img height="320" alt=""
+                                                class="mw-100 ta-lz-load ta-lz-loaded" src="<?=$col->qrcode;?>">
+                                        </div>
+                                        <div class="alert alert-primary">
+                                            Vào App của ngân hàng, tìm đến phần quét mã QR-Code để thanh toán, hệ thống
+                                            đã thiết lập sẵn
+                                            thông tin
+                                            cũng như nội dung chuyển khoản, chỉ cần quét mã và xác nhận chuyển là xong,
+                                            từ 1 - 15 phút sẽ
+                                            cộng tiền
+                                            vào tài khoản.
+                                        </div> <button type="button" data-bs-dismiss="modal"
+                                            class="btn btn-main w-100">Đóng</button>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif;?>
+                        <?php endforeach;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+include_once __DIR__ . '/../layouts/end.phtml';
+?>

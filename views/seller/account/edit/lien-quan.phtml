@@ -1,0 +1,211 @@
+<?php include_once __DIR__ . '/../../../layouts/head.phtml';
+include_once __DIR__ . '/../../../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" class="nuxt-link-active"><i
+                                            class="fad fa-analytics"></i> <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add" class="nuxt-link-active"><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class="nuxt-link-active"><i
+                                            class="fad fa-tags"></i> <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders" class=""><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw" class=""><i class="fad fa-wallet"></i>
+                                        <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting" class=""><i class="fad fa-cog"></i> <span>Cài
+                                            đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="/seller/account" class="d-block text-primary fs-14 fw-bold pb-3"><i
+                                        class="fa fa-arrow-left"></i> Trở lại
+                                </a>
+                                <h2 class="page-title d-flex align-items-center"><img height="30" title="Logo Liên Quân"
+                                        alt="Logo Liên Quân" class="rounded" src="/categories/lien-quan.jpg"> <span
+                                        class="ps-2">Tài Khoản Liên Quân</span></h2>
+                                <div>
+                                    <form action="/api/seller/account/lien-quan/<?=$account->id;?>/edit" method="POST" next>
+                                        <!---->
+                                        <div class="form-group">
+                                            <label for="">Trạng thái:</label>
+                                            <select class="form-control" name="status">
+                                                <option value="available">Hiển thị</option>
+                                                <option value="hidden">Tạm ẩn</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Thông tin:</label>
+                                            <select class="form-control" name="info">
+                                                <option value="empty">Trắng thông tin</option>
+                                                <option value="full">Full thông tin</option>
+                                                <option value="unknown">Thông tin ảo</option>
+                                                <option value="only_email">Chỉ có email</option>
+                                                <option value="only_phone">Chỉ có số điện thoại</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Đăng nhập bằng:</label>
+                                            <select class="form-control" name="login">
+                                                <option value="garena">Garena</option>
+                                                <option value="facebook">Facebook</option>
+                                                <option value="apple-id">Apple ID</option>
+                                            </select>
+                                        </div>
+                                        <!---->
+                                        <div class="form-group">
+                                            <label for="">Tài khoản:</label>
+                                            <input type="text" class="form-control" value="<?=$account->account;?>" name="account">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Mật khẩu:</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" value="<?=$account->password;?>" name="password">
+                                                <button type="button" class="btn btn-dark">
+                                                    Hiện
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">
+                                                Mô tả <span class="fs-13 text-muted">(<span
+                                                        id="content">0</span>/100)</span>:
+                                            </label>
+                                            <textarea rows="2"
+                                                placeholder="Mô tả thêm thông tin về tài khoản, có thể để trống..."
+                                                class="form-control" name="describe" ><?=$account->describe;?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Thông tin thêm sau khi bán:</label>
+                                            <textarea rows="2"
+                                                placeholder="Thông tin thêm sau khi người dùng mua tài khoản, có thể để trống..."
+                                                class="form-control" name="note"><?=$account->note;?></textarea>
+                                        </div>
+                                        <?php $json = json_decode($account->data);?>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm col-12">
+                                                    <div class="form-group">
+                                                        <label for="">Tướng:</label>
+                                                        <input placeholder="" type="tel" value="<?=$json->tuong;?>" name="tuong"
+                                                            class="form-control">
+                                                        <!---->
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm col-12">
+                                                    <div class="form-group">
+                                                        <label for="">Trang phục:</label>
+                                                        <input placeholder="" value="<?=$json->skin;?>" name="skin" type="tel"
+                                                            class="form-control">
+                                                        <!---->
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm col-12">
+                                                    <div class="form-group">
+                                                        <label for="">Hạng:</label>
+                                                        <!---->
+                                                        <!---->
+                                                        <select class="form-control" name="rank">
+                                                            <option value="empty">Chưa có</option>
+                                                            <option value="bronze">Đồng</option>
+                                                            <option value="silver">Bạc</option>
+                                                            <option value="gold">Vàng</option>
+                                                            <option value="platinum">Bạch kim</option>
+                                                            <option value="diamond">Kim cương</option>
+                                                            <option value="veteran">Tinh anh</option>
+                                                            <option value="master">Cao thủ</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Hình ảnh:</label>
+                                            <p class="help-block my-0">
+                                                - Kích thước ưu tiên <b>850 x 500</b> hoặc cao hơn, có thể tải lên nhiều
+                                                ảnh 1 lần, kéo thả hình ảnh vào vị trí hợp lệ để người mua có thể xem
+                                                chi tiết về tài khoản nhất. <br>
+                                                - Tải lên hình ảnh rõ nét để tăng tỉ lệ chốt. <br>
+                                                - Không đăng ảnh gộp nhiều thông tin (khiến ảnh bị vỡ nét)
+                                            </p>
+                                            <div class="row" id="upload">
+                                                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
+                                                    <input type="file" id="images" name="images[]" class="d-none"
+                                                        multiple="multiple">
+                                                    <div class="vue-dropzone dropzone dz-clickable" id="foo">
+                                                        <div class="dz-message">
+                                                            <div
+                                                                class="account-images d-flex align-items-center justify-content-center select cursor-pointer">
+                                                                <div class="text-center"><i
+                                                                        class="fad fa-2x line-height-0 fa-plus-circle"
+                                                                        style="animation-duration: 0.7s;"></i>
+                                                                    <div class="pt-2 line-height-0 fs-13">
+                                                                        Thêm hình ảnh
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Giá tiền:</label>
+                                            <input placeholder="" name="price" value="<?=$account->price;?>" type="tel" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Sử dụng mã KM tại Shop:</label>
+                                            <select class="form-control" name="discount">
+                                                <option value="0">Tài khoản không thể áp mã KM</option>
+                                                <option value="1">Tài khoản có thể áp mã KM</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="ta-submit btn btn-main w-100 mt-2">Đăng lên
+                                            shop</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../../../layouts/footer.phtml';
+include_once __DIR__ . '/../../../layouts/script.phtml';
+include_once __DIR__ . '/script.phtml';
+include_once __DIR__ . '/../../../layouts/end.phtml';
+?>

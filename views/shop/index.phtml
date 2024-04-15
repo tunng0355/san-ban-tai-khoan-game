@@ -1,0 +1,50 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <?php if(empty(Auth::user()->shop)):?>
+
+            <h2 class="page-title d-flex align-items-center justify-content-between">
+                <span>Shop tại hệ thống</span>
+                <a href="/mo-shop" class="btn btn-main btn-card-title"><i class="fa fa-plus-circle"></i>Mở Shop
+                </a>
+            </h2>
+            <?php endif;?>
+            <div class="row">
+                <?php foreach(Shop::find(['status'=>'active'])->all() as $shop): ?>
+                <?php $users =DB::connect()->num_rows('users',['uid'=>$shop->UserID])->get(); ?>
+                <?php if(!empty($users)):?>
+                <?php $users =DB::connect()->find('users',['uid'=>$shop->UserID])->get(); ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <div class="seller-profile border rounded">
+                        <div class="d-flex align-items-center p-2">
+                            <div class="avatar"><img height="65" title="Ảnh đại diện <?=$users->fullname;?>"
+                                    alt="Ảnh đại diện <?=$users->fullname;?>" class="rounded"
+                                    src="<?=$users->avatar;?>">
+                            </div>
+                            <div class="info ps-2">
+                                <h4 class="m-0 fs-15 fw-500 lh-1"><?=$users->fullname;?></h4> <span
+                                    class="username text-secondary fs-12">@<?=$users->username;?></span>
+                                <div class="stats"><span class="fs-13 text-muted">
+                                        Tài khoản hiện có: <b><?=DB::connect()->num_rows('account',['ShopID'=>$shop->id])->get();?></b></span></div>
+                            </div>
+                        </div> <a href="/shop/<?=$users->username;?>"
+                            class="p-2 d-block fs-13 fw-bold text-dark text-center border-top">
+                            Xem shop <i class="fa fa-arrow-right lh-0"></i></a>
+                    </div>
+                </div>
+                <?php endif;?>
+                <?php endforeach;?>
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

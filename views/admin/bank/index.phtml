@@ -1,0 +1,149 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml';
+include_once __DIR__ . '/../../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Bảng điều khiển</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/../menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body card-table">
+                            <h5 class="card-title d-flex align-items-center justify-content-between">
+                                <span>Quản lý Ngân hàng</span>
+                                <button data-bs-toggle="modal" data-bs-target="#bank"
+                                    class="btn btn-main btn-card-title"><i class="fa fa-plus-circle"></i> Thêm ngân hàng
+                                </button>
+                            </h5>
+
+                            <table class="table table-hover table-borderless mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Thao tác</th>
+                                        <th>Ngân Hàng</th>
+                                        <th>Số tài khoản</th>
+                                        <th>Chủ tài khoản</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thời gian</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach (Bank::find()->all() as $col): ?>
+                                    <tr>
+                                        <td><?=$col->id;?></td>
+                                        <td>
+                                            <a href="/admin/bank/<?=$col->id;?>/edit"
+                                                class="btn btn-primary btn-action">
+                                                Chỉnh sửa</a>
+                                            <a href="/admin/bank/<?=$col->id;?>/delete">
+                                                <button class="btn btn-danger btn-action">
+                                                    Xóa
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td class="d-flex flex-column">
+                                            <div class="d-flex align-items-center">
+                                                <img width="24" height="24" alt="" src="/bank/<?=$col->bank;?>.png"
+                                                    class="img-navbar rounded-2 shadow-sm me-1">
+                                                <div class="ms-1">
+                                                    <?=$col->bank;?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><?=$col->stk;?></td>
+                                        <td><?=$col->ctk;?></td>
+                                        <td><?=Bank::type($col->bank);?></td>
+                                        <td><?=Bank::status($col->status);?></td>
+                                        <td><?=timeago($col->createDate);?></td>
+                                    </tr>
+                                    <?php endforeach;?>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bank" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Tạo lệnh rút tiền</h5> <button type="button" data-bs-dismiss="modal"
+                    aria-label="Close" class="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/admin/bank/create" method="POST" next>
+                    <div class="form-group">
+                        <label for="">Số tài khoản:</label>
+                        <input type="text" placeholder="0123456789" name="stk" required="required" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chủ tài khoản:</label>
+                        <input type="text" placeholder="NGUYEN VAN A" name="ctk" required="required"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Qrcode ( Nếu có):</label>
+                        <input type="text" placeholder="Có thể bỏ trống" name="qrcode"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ngân hàng:</label>
+                        <select class="form-control" name="bank">
+                            <option value="shopeepay">
+                                Shopee Pay - Ví điện tử Shopee Pay
+                            </option>
+                            <option value="momo">
+                                Momo - Ví điện tử Momo
+                            </option>
+                            <option value="zalopay">
+                                ZaloPay - Ví điện tử ZaloPay
+                            </option>
+                            <option value="vietcombank">
+                                Vietcombank - Ngân hàng TMCP Ngoại Thương Việt Nam
+                            </option>
+                            <option value="mb">
+                                MBBank - Ngân hàng TMCP Quân đội
+                            </option>
+                            <option value="acb">
+                                ACB - Ngân hàng TMCP Á Châu
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Trạng thái:</label>
+                        <select class="form-control" name="status">
+                            <option value="active">
+                                Hoạt động
+                            </option>
+                            <option value="maintenance">
+                                Bảo trì
+                            </option>
+                        </select>
+                    </div>
+                    <button class="ta-submit btn btn-main w-100" type="submit">Tạo lệnh</button>
+                </form>
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../../layouts/footer.phtml';
+include_once __DIR__ . '/../../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../../layouts/end.phtml';
+?>

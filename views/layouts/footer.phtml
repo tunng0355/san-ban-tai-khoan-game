@@ -1,0 +1,96 @@
+<footer class="bg-dark">
+    <div class="ta-container pt-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="mb-3">
+                    <div class="ta-footer-fit"><img height="42" alt="" src="/logo.png"
+                            class="shadow-sm border border-white rounded"></div>
+                    <p class="text-white ta-content-fit fs-13 mb-0">
+                        <?=tagurl(Setting::find("description"));?>
+                    </p>
+                </div>
+            </div>
+            <div class="col-xl col-sm-6">
+                <div class="mb-3">
+                    <h4 class="ta-footer-title ta-footer-fit"><strong>Danh mục tài khoản</strong></h4>
+                    <div><a href="/tai-khoan-lien-quan" class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Liên Quân</strong></a><a href="/tai-khoan-free-fire"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Free Fire</strong></a><a href="/tai-khoan-roblox"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Roblox</strong></a><a href="/tai-khoan-ngoc-rong-online"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Ngọc Rồng</strong></a><a href="/tai-khoan-fifa-online"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Fifa Online</strong></a><a href="/tai-khoan-dot-kich"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Đột Kích</strong></a><a href="/tai-khoan-pubg-mobile"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>PUBG Mobile</strong></a><a href="/tai-khoan-lien-minh"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Liên Minh</strong></a><a href="/tai-khoan-toc-chien"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Tốc Chiến</strong></a><a href="/tai-khoan-zing-speed-mobile"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Zing Speed</strong></a><a href="/tai-khoan-genshin-impact"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Genshin Impact</strong></a><a href="/tai-khoan-play-together"
+                            class="ta-footer-link ta-content-fit">
+                            Mua tài khoản <strong>Play Together</strong></a></div>
+                </div>
+            </div>
+            <div class="col-xl col-sm-6">
+                <div class="mb-3">
+                    <h4 class="ta-footer-title ta-footer-fit"><strong>Liên kết</strong></h4>
+                    <div><a href="/blog" class="ta-footer-link ta-content-fit">
+                            Bài viết
+                        </a></div>
+                    <div><a href="/shop" class="ta-footer-link ta-content-fit">
+                            Shop tại hệ thống
+                        </a></div>
+                    <div><a href="/blog/huong-dan-mo-shop-ban-acc-mien-phi" class="ta-footer-link ta-content-fit">
+                            Hướng dẫn mở Shop
+                        </a></div>
+                    <div><a href="/mo-shop" class="ta-footer-link ta-content-fit">
+                            Tạo Shop miễn phí
+                        </a></div>
+                </div>
+            </div>
+            <div class="col-xl col-sm-6">
+                <div class="mb-3">
+                    <h4 class="ta-footer-title ta-footer-fit">
+                        <strong>Hỗ trợ</strong>
+                    </h4>
+                    <div>
+                        <a href="mailto:<?=Setting::find("email");?>" class="ta-footer-link ta-content-fit">
+                            <i class="fa fa-envelope"></i> 
+                            <?=Setting::find("email");?>
+                        </a> 
+                        <a href="tel:+84<?=substr(Setting::find("hotline"),1);?>"
+                            class="ta-footer-link ta-content-fit">
+                            <i class="fa fa-phone-alt"></i>
+                            <?=Setting::find("hotline");?>
+                        </a> 
+                        <a href="<?=Setting::find("Fanpage");?>" target="_blank" class="ta-footer-link ta-content-fit">
+                            <i class="fab fa-facebook-square"></i> 
+                            Fanpage
+                        </a> 
+                        <a href="<?=Setting::find("group");?>" target="_blank" class="ta-footer-link ta-content-fit">
+                            <i class="fa fa-user-friends"></i> 
+                            Nhóm cộng đồng
+                        </a> 
+                        <a href="<?=Setting::find("messenger");?>" target="_blank" class="ta-footer-link ta-content-fit">
+                            <i class="fab fa-facebook-messenger"></i>
+                            Messenger
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ta-container border-top border-gray">
+        <div class="text-white text-center text-xl-start py-3 fs-14"><strong><?=Setting::find("copyright");?></strong> - All rights
+            reserved.
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,61 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Yêu cầu mở Shop</h5>
+                        <?php if(empty(Auth::user()->shop)):?>
+                        <div>
+                            <div class="alert alert-primary">
+                                - Để khởi động shop, bạn vui lòng cung cấp thông tin <b>Facebook</b>, <b>Zalo</b> và
+                                <b>số điện thoại</b> của bạn trong biểu mẫu dưới đây. Sau đó, hệ thống sẽ tiến hành xem
+                                xét và mở shop trực tiếp trên tài khoản của bạn trong khoảng thời gian từ 5 đến 10 phút.
+                                <br>
+                                - Fanpage hỗ trợ: <a href="https://www.facebook.com/trumacc.vn" target="_blank"
+                                    class="fw-bold">https://www.facebook.com/trumacc.vn</a>
+                            </div>
+                            <form action="/api/shop/create" method="POST" next>
+                                <div class="form-group">
+                                    <label for="">Facebook:</label>
+                                    <input type="url" name="facebook" placeholder="https://www.facebook.com/trumacc.vn"
+                                        required="required" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Zalo:</label>
+                                    <input type="phone" name="zalo" placeholder="0123456789" required="required"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Số điện thoại:</label>
+                                    <input type="phone" name="hotline" placeholder="0123456789" required="required"
+                                        class="form-control">
+                                </div>
+                                <button type="submit" class="ta-submit btn btn-primary w-100">Gửi yêu cầu</button>
+                            </form>
+                        </div>
+                        <?php else:?>
+                        <div>
+                            <div class="alert alert-success mb-0">
+                                Chúc mừng! Yêu cầu mở Shop của bạn đã được phê duyệt, bạn có thể bắt đầu kinh doanh tại
+                                hệ thống
+                                <b>TrumAcc.Vn</b> <br>
+                                Bấm <a href="/seller" class="fw-bold">vào đây</a> để tới trang quản lý.
+                            </div>
+                        </div>
+                        <?php endif;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

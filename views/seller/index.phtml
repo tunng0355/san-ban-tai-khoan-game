@@ -1,0 +1,151 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml';
+include_once __DIR__ . '/../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" aria-current="page"
+                                        class="nuxt-link-exact-active nuxt-link-active"><i class="fad fa-analytics"></i>
+                                        <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add" class=""><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class=""><i class="fad fa-tags"></i>
+                                        <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders" class=""><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw" class=""><i class="fad fa-wallet"></i>
+                                        <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting" class=""><i class="fad fa-cog"></i> <span>Cài
+                                            đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(229, 246, 254);">
+                                    <div class="icon"><i class="fal fa-money-bill-wave-alt fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Doanh thu hôm nay</div> <span
+                                            class="count"><span><?=format_number2($doanhthuhomnay);?></span>đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(228, 246, 232);">
+                                    <div class="icon"><i class="fal fa-chart-scatter fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Doanh thu tháng</div> <span
+                                            class="count"><span><?=format_number2($doanhthuthangnay);?></span>đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(248, 242, 253);">
+                                    <div class="icon"><i class="fal fa-chart-line fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Doanh thu trọn đời</div> <span
+                                            class="count"><span><?=format_number2($doanhthutrondoi);?></span>đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(242, 244, 253);">
+                                    <div class="icon"><i class="fal fa-truck fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Tổng giá trị tài khoản</div> <span
+                                            class="count"><span><?=format_number2($tonggiatri);?></span>đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(253, 251, 242);">
+                                    <div class="icon"><i class="fal fa-shipping-fast fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Tài khoản đã bán</div> <span
+                                            class="count"><span><?=format_number2($daban);?></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="revenue" style="background: rgb(253, 242, 242);">
+                                    <div class="icon"><i class="fal fa-shipping-timed fa-3x"></i></div>
+                                    <div class="group">
+                                        <div class="text">Tài khoản chưa bán</div> <span
+                                            class="count"><span><?=format_number2($chuaban);?></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body card-table">
+                                        <h5 class="card-title fs-15"><i class="fad fa-wallet"></i> Các giao dịch gần
+                                            nhất</h5>
+                                        <table class="table table-hover table-borderless mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Giao dịch</th>
+                                                    <th>Số tiền</th>
+                                                    <th>Thời gian</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($gdganday as $col): ?>
+                                                <tr>
+                                                    <td>#<?=$col->id;?></td>
+                                                    <td class="fw-bold"><?=format_number2($col->price);?>đ</td>
+                                                    <td><?=timeago($col->createDate);?></td>
+                                                </tr>
+                                                <?php endforeach;?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body pb-1">
+                                        <h5 class="card-title fs-15"><i class="fad fa-analytics"></i> Biểu đồ tài khoản
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+include_once __DIR__ . '/../layouts/end.phtml';
+?>

@@ -1,0 +1,565 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Tài khoản đã mua</h2>
+            <div class="card">
+                <div class="dropdown m-3">
+                    <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"
+                        class="btn btn-light dropdown-toggle" fdprocessedid="g7gzfd">
+                        <?php if($tk == 'all'): ?>
+                        <span>Tất cả tài khoản</span>
+                        <?php else:?>
+                        <img height="25" alt="" class="rounded ta-lz-load ta-lz-loaded" src="/categories/<?=$tk;?>.jpg">
+                        <span class="ps-2"><?=Game::type($tk);?></span>
+                        <?php endif;?>
+                    </button>
+                    <ul class="dropdown-menu mt-2">
+                        <li><a href="/orders" class="dropdown-item nuxt-link-exact-active nuxt-link-active"
+                                aria-current="page">Tất cả tài khoản</a></li>
+                        <li><a href="/orders?tai-khoan=lien-quan" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/lien-quan.jpg"> <span
+                                    class="ps-2">Liên Quân</span></a></li>
+                        <li><a href="/orders?tai-khoan=genshin-impact" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/genshin-impact.jpg"> <span
+                                    class="ps-2">Genshin Impact</span></a></li>
+                        <li><a href="/orders?tai-khoan=toc-chien" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/toc-chien.jpg"> <span class="ps-2">Tốc
+                                    Chiến</span></a></li>
+                        <li><a href="/orders?tai-khoan=ngoc-rong-online" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/ngoc-rong-online.jpg"> <span
+                                    class="ps-2">Ngọc Rồng</span></a></li>
+                        <li><a href="/orders?tai-khoan=roblox" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/roblox.jpg"> <span
+                                    class="ps-2">Roblox</span></a></li>
+                        <li><a href="/orders?tai-khoan=fifa-online" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/fifa.jpg"> <span class="ps-2">Fifa
+                                    Online</span></a></li>
+                        <li><a href="/orders?tai-khoan=dot-kich" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/dot-kich.jpg"> <span class="ps-2">Đột
+                                    Kích</span></a></li>
+                        <li><a href="/orders?tai-khoan=free-fire" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/free-fire.jpg"> <span
+                                    class="ps-2">Free Fire</span></a></li>
+                        <li><a href="/orders?tai-khoan=pubg-mobile" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/pubg-mobile.jpg"> <span
+                                    class="ps-2">PUBG Mobile</span></a></li>
+                        <li><a href="/orders?tai-khoan=lien-minh" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/lien-minh.jpg"> <span
+                                    class="ps-2">Liên Minh</span></a></li>
+                        <li><a href="/orders?tai-khoan=zing-speed-mobile" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/zing-speed-mobile.jpg"> <span
+                                    class="ps-2">Zing Speed</span></a></li>
+                        <li><a href="/orders?tai-khoan=play-together" class="dropdown-item"><img height="25" alt=""
+                                    class="rounded ta-lz-load ta-lz-loaded"
+                                    src="https://cdn.trumacc.vn/public/categories/play-together.jpg"> <span
+                                    class="ps-2">Play Together</span></a></li>
+                    </ul>
+                </div>
+                <div class="card-body card-table pt-0 pb-2">
+                    <table class="table table-hover table-borderless mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>MSTK</th>
+                                <th>Loại</th>
+                                <th>Thanh toán</th>
+                                <th>Thông tin</th>
+                                <th>Người bán</th>
+                                <th>Đánh giá người bán</th>
+                                <th>Thời gian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($buy as $col):?>
+                            <tr>
+                                <td><?=$col->id;?></td>
+                                <td>
+                                    #<?=$col->MTK;?>
+                                </td>
+                                <td>
+                                    <?=Game::type($col->game);?>
+                                </td>
+                                <td>
+                                    <?=format_number2($col->price);?>đ
+                                </td>
+                                <td>
+                                    <button class="btn btn-main btn-action" views-id="<?=$col->id;?>"><i
+                                            class="fa fa-eye"></i> Xem
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-action" info-id="<?=$col->id;?>">
+                                        <i class="fa fa-comment"></i> Liên hệ
+                                    </button>
+                                </td>
+                                <td>
+                                    <?php if(empty($col->rating)):?>
+                                    <a href="javascript:void(0)" rating-id="<?=$col->id;?>">Đánh giá ngay</a>
+                                    <?php else:?>
+                                    <div class="ta-rating">
+                                        <?php $rating = DB::connect()->find('rating', ['UserID' => Auth::user()->uid, 'AccID' => $col->id])->get();?>
+                                        <?php for ($i=0; $i < 5; $i++): ?>
+                                        <?php if($i < $rating->star) :?>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <?php else:?>
+                                        <i class="fa fa-star"></i>
+                                        <?php endif;?>
+                                        <?php endfor;?>
+                                    </div>
+                                    <?php endif;?>
+                                </td>
+                                <td><?=timeago($col->createDate);?></td>
+                            </tr>
+                            <?php endforeach;?>
+                        </tbody>
+                    </table>
+                    <!---->
+                </div>
+            </div>
+
+            <div class="modal fade" id="views" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold">Tài khoản #<span value-type="id">#0</span></h5> <button
+                                type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="">Tài khoản:</label>
+                                <span class="d-block fs-14" value-type="account">đang tải...</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Mật khẩu:</label>
+                                <span class="d-block fs-14" value-type="password">đang tải...</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Thông tin:</label>
+                                <span class="d-block fs-14" value-type="info">đang tải...</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Đăng nhập:</label>
+                                <span class="d-block fs-14" value-type="login">
+                                    <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Mã 2FA:</label>
+                                <span class="d-block fs-14">no
+                                    có</span>
+                            </div>
+                            <p class="fs-13 border border-dashed rounded p-3 mb-0 bg-light"><b>*</b> Nếu hài lòng về
+                                giao dịch cũng như chất lượng tài khoản, đừng quên <b class="text-primary">đánh giá
+                                    người bán 5 sao</b> nhé. <br> <b>*</b> Một phần <b>đánh giá</b> của bạn sẽ giúp
+                                người bán cải thiện hơn về chất lượng dịch vụ và có thể giúp hệ thống phát triển tối ưu
+                                hơn về trải nghiệm giữa người mua và bán.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-main flex-1 me-1" rating-id="">Đánh giá người
+                                bán</button>
+                            <button type="button" data-bs-dismiss="modal"
+                                class="btn btn-light flex-1 ms-1">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold">Thông tin người bán</h5>
+                            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="seller position-relative d-flex align-items-center border p-2 rounded">
+                                <div class="avatar">
+                                    <img height="50" width="50" alt="" class="rounded shadow-sm ta-lz-load ta-lz-loaded"
+                                        src="/default_avatar.png">
+                                </div>
+                                <div class="info ps-3">
+                                    <h4 class="name fs-15 mb-0" value-type="name">đang tải...</h4>
+                                    <a href="/shop/{username}" class="fs-13 stretched-link">Xem shop</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="rating" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold">Đánh giá người bán</h5>
+                            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="POST" next>
+                                <div class="text-center py-2">
+                                    <div
+                                        class="ta-rating d-flex align-items-center justify-content-center mb-2 star_hover">
+                                        <i class="fa-star fs-25 fa text-warning" star="1"></i>
+                                        <!--text-warning-->
+                                        <i class="fa-star fs-25 fa text-warning" star="2"></i>
+                                        <i class="fa-star fs-25 fa text-warning" star="3"></i>
+                                        <i class="fa-star fs-25 fa text-warning" star="4"></i>
+                                        <i class="fa-star fs-25 fa text-warning" star="5"></i>
+                                    </div>
+                                    <span class="fs-14 fw-normal" star-text="1" style="display: none;">( <b>1 sao</b> -
+                                        Tệ )</span>
+                                    <span class="fs-14 fw-normal" star-text="2" style="display: none;">( <b>2 sao</b> -
+                                        Chưa tốt )</span>
+                                    <span class="fs-14 fw-normal" star-text="3" style="display: none;">( <b>3 sao</b> -
+                                        Tạm được )</span>
+                                    <span class="fs-14 fw-normal" star-text="4" style="display: none;">( <b>4 sao</b> -
+                                        Uy tín )</span>
+                                    <span class="fs-14 fw-normal" star-text="5">( <b>5 sao</b> - Chất lượng tốt )</span>
+                                </div>
+                                <input type="hidden" name="star" id="star" value="5" />
+                                <div class="my-2">
+                                    <div class="seller position-relative d-flex align-items-center border p-2 rounded">
+                                        <div class="avatar">
+                                            <img height="50" alt="" width="50"
+                                                class="rounded shadow-sm ta-lz-load ta-lz-loaded"
+                                                src="/default_avatar.png">
+                                        </div>
+                                        <div class="info ps-3">
+                                            <h4 class="name fs-15 mb-0" value-type="name">đang tải...</h4>
+                                            <a href="/shop/{username}" class="fs-13 stretched-link">Xem shop</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Nội dung đánh giá:</label>
+                                    <textarea name="content" placeholder="Hãy sử dụng những lời đánh giá tích cực..."
+                                        class="form-control"></textarea>
+                                </div>
+                                <button class="ta-submit btn btn-main w-100" type="submit">Gửi đánh giá</button>
+                            </form>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+?>
+
+<script>
+$(".star_hover [star]").hover(function() {
+    $("#star").val($(this).attr('star'));
+    if ($(this).attr('star') == 1) {
+        $('[star=1]').attr("class", "fa-star fs-25 fa text-warning active");
+        $('[star=2]').attr("class", "fa-star fs-25 fa");
+        $('[star=3]').attr("class", "fa-star fs-25 fa");
+        $('[star=4]').attr("class", "fa-star fs-25 fa");
+        $('[star=5]').attr("class", "fa-star fs-25 fa");
+
+        $('[star-text=1]').show();
+        $('[star-text=2]').hide();
+        $('[star-text=3]').hide();
+        $('[star-text=4]').hide();
+        $('[star-text=5]').hide();
+
+    }
+    if ($(this).attr('star') == 2) {
+        $('[star=1]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=2]').attr("class", "fa-star fs-25 fa text-warning active");
+        $('[star=3]').attr("class", "fa-star fs-25 fa");
+        $('[star=4]').attr("class", "fa-star fs-25 fa");
+        $('[star=5]').attr("class", "fa-star fs-25 fa");
+
+        $('[star-text=1]').hide();
+        $('[star-text=2]').show();
+        $('[star-text=3]').hide();
+        $('[star-text=4]').hide();
+        $('[star-text=5]').hide();
+
+    }
+    if ($(this).attr('star') == 3) {
+        $('[star=1]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=2]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=3]').attr("class", "fa-star fs-25 fa text-warning active");
+        $('[star=4]').attr("class", "fa-star fs-25 fa");
+        $('[star=5]').attr("class", "fa-star fs-25 fa");
+
+        $('[star-text=1]').hide();
+        $('[star-text=2]').hide();
+        $('[star-text=3]').show();
+        $('[star-text=4]').hide();
+        $('[star-text=5]').hide();
+    }
+    if ($(this).attr('star') == 4) {
+        $('[star=1]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=2]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=3]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=4]').attr("class", "fa-star fs-25 fa text-warning active");
+        $('[star=5]').attr("class", "fa-star fs-25 fa");
+
+        $('[star-text=1]').hide();
+        $('[star-text=2]').hide();
+        $('[star-text=3]').hide();
+        $('[star-text=4]').show();
+        $('[star-text=5]').hide();
+    }
+
+    if ($(this).attr('star') == 5) {
+        $('[star=1]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=2]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=3]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=4]').attr("class", "fa-star fs-25 fa text-warning");
+        $('[star=5]').attr("class", "fa-star fs-25 fa text-warning active");
+
+        $('[star-text=1]').hide();
+        $('[star-text=2]').hide();
+        $('[star-text=3]').hide();
+        $('[star-text=4]').hide();
+        $('[star-text=5]').show();
+    }
+});
+$("[rating-id]").click(function() {
+    var id = $(this).attr("rating-id");
+    $("#views").modal('hide');
+    $("#rating").modal('show');
+    $("#rating form").attr('action', '/api/orders/' + id + '/rating');
+
+    $.ajax({
+        type: "GET",
+        url: "/api/orders/" + id + "/shop",
+        dataType: "json",
+        statusCode: {
+            403: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            404: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            500: function() {
+                noti("danger", "500 status code! server error");
+            },
+            400: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            },
+            401: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            }
+        },
+        success: (data) => {
+            if (!data && data == "undefined") {
+                noti("error", "Không thể lấy dữ liệu");
+            } else {
+                if (data.href) {
+                    setInterval(() => {
+                        window.location.href = data.href;
+                    }, 700);
+                }
+
+                if (data.status == 'success') {
+
+                    $("#rating [value-type=name]").html(data.shop.name)
+                    $("#rating .stretched-link").attr("href", "/shop/" + data.shop.username)
+                    $("#rating .avatar img").attr("src", data.shop.avatar)
+
+                }
+
+
+            }
+        },
+    });
+
+});
+
+
+$("button[info-id]").click(function() {
+    var id = $(this).attr("info-id");
+    $("#info").modal('show');
+
+    $.ajax({
+        type: "GET",
+        url: "/api/orders/" + id + "/shop",
+        dataType: "json",
+        statusCode: {
+            403: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            404: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            500: function() {
+                noti("danger", "500 status code! server error");
+            },
+            400: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            },
+            401: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            }
+        },
+        success: (data) => {
+            if (!data && data == "undefined") {
+                noti("error", "Không thể lấy dữ liệu");
+            } else {
+                if (data.href) {
+                    setInterval(() => {
+                        window.location.href = data.href;
+                    }, 700);
+                }
+
+                if (data.status == 'success') {
+
+                    $("#info [value-type=name]").html(data.shop.name)
+                    $("#info .stretched-link").attr("href", "/shop/" + data.shop.username)
+                    $("#info .avatar img").attr("src", data.shop.avatar)
+
+                }
+
+
+            }
+        },
+    });
+})
+
+$("button[views-id]").click(function() {
+    var id = $(this).attr("views-id");
+    $("#views").modal('show');
+    $("#views [value-type=id]").html(id);
+    $("#views button[rating-id]").attr('rating-id', id)
+
+    $.ajax({
+        type: "GET",
+        url: "/api/orders/" + id + "/views",
+        dataType: "json",
+        statusCode: {
+            403: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            404: function() {
+                noti("error", "Đường dẫn API không chính xác");
+            },
+            500: function() {
+                noti("danger", "500 status code! server error");
+            },
+            400: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            },
+            401: function(response) {
+                let data = JSON.parse(response.responseText);
+                if (!data && data == "undefined") {
+
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                }
+            }
+        },
+        success: (data) => {
+            if (!data && data == "undefined") {
+                noti("error", "Không thể lấy dữ liệu");
+            } else {
+                if (data.href) {
+                    setInterval(() => {
+                        window.location.href = data.href;
+                    }, 700);
+                }
+
+                if (data.status == 'success') {
+
+                    $("#views [value-type=account]").html(data.orders.account);
+                    $("#views [value-type=password]").html(data.orders.password)
+                    $("#views [value-type=info]").html(data.orders.info)
+                    $("#views [value-type=login]").html(data.orders.login)
+
+                    $("#views [value-type=login]").html(data.orders.login)
+
+                }
+
+
+            }
+        },
+    });
+})
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml';
+?>

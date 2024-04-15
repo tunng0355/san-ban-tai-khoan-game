@@ -1,0 +1,90 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml'; 
+include_once __DIR__ . '/../../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h4 class="page-title d-flex align-items-center justify-content-between">
+                Quản lý Shop
+                <a href="/shop/<?=Auth::user()->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                        class="fad fa-store-alt"></i>Xem shop
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card shadow-none border bg-transparent">
+                        <div class="card-body shadow-none pt-2 pb-0">
+                            <ul class="seller-menu ps-0">
+                                <li class="item text"><span class="text">Tổng quan</span></li>
+                                <li class="item"><a href="/seller" class="nuxt-link-active"><i
+                                            class="fad fa-analytics"></i> <span>Thống kê</span></a></li>
+                                <li class="item"><a href="/seller/rating" class=""><i class="fad fa-star"></i>
+                                        <span>Đánh giá</span></a></li>
+                                <li class="item text"><span class="text">Tài khoản</span></li>
+                                <li class="item"><a href="/seller/account/add" class=""><i
+                                            class="fad fa-plus-circle"></i> <span>Thêm tài khoản</span></a></li>
+                                <li class="item"><a href="/seller/account" class="nuxt-link-active"><i
+                                            class="fad fa-tags"></i> <span>Tất cả tài khoản</span></a></li>
+                                <li></li>
+                                <li class="item"><a href="/seller/account/orders"
+                                        class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                            class="fad fa-user-tag"></i> <span>Tài khoản đã bán</span></a></li>
+                                <li></li>
+                                <li class="item text"><span class="text">Khuyến mãi</span></li>
+                                <li class="item"><a href="/seller/promo/create" class=""><i
+                                            class="fad fa-money-check"></i> <span>Thêm mã khuyến mãi</span></a></li>
+                                <li class="item"><a href="/seller/promo" class=""><i class="fad fa-th-list"></i>
+                                        <span>Quản lý mã khuyến mãi</span></a></li>
+                                <li class="item text"><span class="text">Khác</span></li>
+                                <li class="item"><a href="/seller/withdraw" class=""><i class="fad fa-wallet"></i>
+                                        <span>Rút tiền</span></a></li>
+                                <li class="item"><a href="/seller/setting" class=""><i class="fad fa-cog"></i> <span>Cài
+                                            đặt</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-container col-lg-9">
+                    <div>
+                        <div class="card">
+                            <div class="card-body card-table">
+                                <h5 class="card-title">Tài khoản đã bán</h5>
+                                <table class="table table-hover table-borderless mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>MSTK</th>
+                                            <th>Loại</th>
+                                            <th>Giá bán</th>
+                                            <th>Thanh toán</th>
+                                            <th>Sử dụng mã KM</th>
+                                            <th>Thời gian bán</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach(Buy::all(['ShopID'=>Shop::my()->id]) as $item):?>
+                                        <tr>
+                                            <td><?=$item->id;?></td>
+                                            <td><?=$item->MTK;?></td>
+                                            <td><?=Game::type($item->game);?></td>
+                                            <td class="fw-bold"><?=format_number2($item->price);?>đ</td>
+                                            <td>Thanh toán trực tiếp</td>
+                                            <td><?=(empty($item->promo_code)) ? "Không sử dụng" : $item->promo_code;?></td>
+                                            <td><?=timeago($item->createDate);?></td>
+                                        <tr>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../../layouts/footer.phtml'; 
+include_once __DIR__ . '/../../layouts/script.phtml'; 
+include_once __DIR__ . '/../../layouts/end.phtml'; 
+?>

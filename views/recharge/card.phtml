@@ -1,0 +1,113 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Nạp thẻ cào</h2>
+            <div class="row flex-row-reverse">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger"><i class="fad fa-sensor-alert"></i> Lưu ý:</h5>
+                            <p class="mb-0 fs-14">
+                                - Sai mệnh giá có thể trừ tới 50% giá trị của thẻ. <br>
+                                - Tự động duyệt thẻ và cộng tiền từ 5 - 15 phút, đúng sẽ được cộng tiền và ngược lại.
+                                <br>
+                                - Vui lòng chọn đúng mệnh giá thẻ và nhà mạng, sai có thể sẽ mất thẻ và không được cộng
+                                hoặc hoàn tiền! <br>
+                                - Nạp tiền từ 30s - 15p rồi nhưng chưa có hoặc đợi quá lâu vui lòng nhắn tin với với <a
+                                    href="https://www.facebook.com/trumacc.vn" target="_blank" class="fw-bold">Fanpage
+                                    hỗ trợ</a> tại đây để được hỗ trợ nhanh nhất!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="/api/recharge/addcard" method="POST" next>
+                                <div class="form-group">
+                                    <label>Loại thẻ:</label>
+                                    <select class="form-control" name="telco">
+                                        <option value="VIETTEL">
+                                            Thẻ Viettel
+                                        </option>
+                                        <option value="VINAPHONE">
+                                            Thẻ Vinaphone
+                                        </option>
+                                        <option value="MOBIFONE">
+                                            Thẻ Mobifone
+                                        </option>
+                                        <option value="GATE">
+                                            Thẻ Gate
+                                        </option>
+                                        <option value="ZING">
+                                            Thẻ Zing
+                                        </option>
+                                        <option value="VNMOBI">
+                                            Thẻ Vnmobi
+                                        </option>
+                                        <option value="VCOIN">
+                                            Thẻ Vcoin
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mệnh giá:</label>
+                                    <select class="form-control" name="amount">
+                                        <option value="10000">
+                                            10,000đ
+                                        </option>
+                                        <option value="20000">
+                                            20,000đ
+                                        </option>
+                                        <option value="30000">
+                                            30,000đ
+                                        </option>
+                                        <option value="50000">
+                                            50,000đ
+                                        </option>
+                                        <option value="100000">
+                                            100,000đ
+                                        </option>
+                                        <option value="200000">
+                                            200,000đ
+                                        </option>
+                                        <option value="300000">
+                                            300,000đ
+                                        </option>
+                                        <option value="500000">
+                                            500,000đ
+                                        </option>
+                                        <option value="1000000">
+                                            1,000,000đ
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nhập Serial:</label>
+                                    <input type="text"  name="serial" placeholder="Nhập mã Serial ở hàng đầu tiên của thẻ cào" value=""
+                                        autocomplete="off" required="required" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nhập mã thẻ:</label>
+                                    <input type="text" name="pin" placeholder="Nhập mã thẻ cào sau lớp bạc mỏng" value=""
+                                        autocomplete="off" required="required" class="form-control">
+                                </div>
+                                <button class="ta-submit btn btn-primary w-100" type="submit">Nạp thẻ cào</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

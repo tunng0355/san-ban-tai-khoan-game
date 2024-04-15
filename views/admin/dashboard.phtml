@@ -1,0 +1,85 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml';
+include_once __DIR__ . '/../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Bảng điều khiển</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cài đặt website</h5>
+                            <form action="/api/admin/dashboard" method="POST" next>
+                                <div class="form-group">
+                                    <label for="logo">Biểu tượng:</label>
+                                    <input type="text" class="form-control" name="logo"
+                                        value="<?=Setting::find("logo");?>" id="logo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Tiêu đề:</label>
+                                    <input type="text" class="form-control" name="title"
+                                        value="<?=Setting::find("title");?>" id="title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="keywords">Từ khóa:</label>
+                                    <input type="text" class="form-control" name="keywords"
+                                        value="<?=Setting::find("keywords");?>" id="keywords">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Mô tả:</label>
+                                    <textarea name="description" class="form-control" rows="4" cols="50"
+                                        id="description"><?=Setting::find("description");?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email hỗ trợ:</label>
+                                    <input type="text" class="form-control" name="email" value="<?=Setting::find("email");?>" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hotline">Hotline hỗ trợ:</label>
+                                    <input type="text" class="form-control" name="hotline"  value="<?=Setting::find("hotline");?>" id="hotline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Fanpage">Fanpage FB:</label>
+                                    <input type="text" class="form-control" name="Fanpage" value="<?=Setting::find("Fanpage");?>" id="Fanpage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="group">Group FB:</label>
+                                    <input type="text" class="form-control" name="group" value="<?=Setting::find("group");?>" id="group">
+                                </div>
+                                <div class="form-group">
+                                    <label for="messenger">Messenger FB:</label>
+                                    <input type="text" class="form-control" name="messenger" value="<?=Setting::find("messenger");?>" id="messenger">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phirut">Phí rút:</label>
+                                    <input type="number" class="form-control" name="phirut" value="<?=Setting::find("phirut");?>" id="phirut">
+                                </div>
+                                <div class="form-group">
+                                    <label for="copyright">Bản quyền thuộc về:</label>
+                                    <input type="text" class="form-control" name="copyright"
+                                        value="<?=Setting::find("copyright");?>" id="copyright">
+                                </div>
+                                <button class="ta-submit mt-5 btn btn-main w-100" type="submit">Cập nhật</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml';
+?>

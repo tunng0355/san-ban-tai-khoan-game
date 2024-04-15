@@ -1,0 +1,145 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml';
+include_once __DIR__ . '/../../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Bảng điều khiển</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/../menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body card-table">
+                            <h5 class="card-title d-flex align-items-center justify-content-between">
+                                <span>Quản lý shop</span>
+                            </h5>
+                            <table class="table table-hover table-borderless mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Thao tác</th>
+                                        <th>Tài khoản</th>
+                                        <th>Facebook</th>
+                                        <th>Zalo</th>
+                                        <th>Youtube</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thời gian</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <?php foreach (Shop::find(['status'=>'pending'])->all() as $col): ?>
+                                    <?php $users = DB::connect()->find("users",['uid'=>$col->UserID])->get();?>
+                                    <tr>
+                                        <td><?=$col->id;?></td>
+                                        <td>
+                                            <a href="/admin/shop/<?=$col->id;?>/edit"
+                                                class="btn btn-primary btn-action">
+                                                <i class="fa fa-pencil-alt"></i></a>
+                                            <a href="/admin/shop/<?=$col->id;?>/delete">
+                                                <button class="btn btn-danger btn-action">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td class="d-flex flex-column">
+                                            <span>Họ và tên: <?=$users->fullname;?></span>
+                                            <span>Username: @<?=$users->username;?></span>
+                                            <span>Email: <?=$users->email;?></span>
+                                        </td>
+                                        <td><?=$col->facebook;?></td>
+                                        <td><?=$col->zalo;?></td>
+                                        <td><?=$col->youtube;?></td>
+                                        <td><?=$col->hotline;?></td>
+                                        <td><?=Shop::status($col->status);?></td>
+                                        <td><?=timeago($col->createDate);?></td>
+                                    </tr>
+                                    <?php endforeach;?>
+
+                                    <?php foreach (Shop::find(['status'=>'active'])->all() as $col2): ?>
+                                    <?php $users2 = DB::connect()->find("users",['uid'=>$col2->UserID])->get();?>
+                                    <tr>
+                                        <td><?=$col2->id;?></td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <div class="d-flex p-2">
+                                                    <a href="/admin/shop/<?=$col2->id;?>/edit"
+                                                        class="btn btn-primary btn-action me-1">
+                                                        <i class="fa fa-pencil-alt"></i></a>
+                                                    <a href="/admin/shop/<?=$col2->id;?>/delete" >
+                                                        <button class="btn btn-danger btn-action">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                                <a href="/shop/<?=$users2->username;?>" class="fs-12 btn btn-outline-main btn-sm"><i
+                                                        class="fad fa-store-alt"></i>
+                                                        <span class="ms-1">xem</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="d-flex flex-column">
+                                            <span>Họ và tên: <?=$users2->fullname;?></span>
+                                            <span>Username: @<?=$users2->username;?></span>
+                                            <span>Email: <?=$users2->email;?></span>
+                                        </td>
+                                        <td><?=$col2->facebook;?></td>
+                                        <td><?=$col2->zalo;?></td>
+                                        <td><?=$col2->youtube;?></td>
+                                        <td><?=$col2->hotline;?></td>
+                                        <td><?=Shop::status($col2->status);?></td>
+                                        <td><?=timeago($col2->createDate);?></td>
+                                    </tr>
+                                    <?php endforeach;?>
+
+                                    <?php foreach (Shop::find(['status'=>'refuse'])->all() as $col3): ?>
+                                    <?php $users3 = DB::connect()->find("users",['uid'=>$col3->UserID])->get();?>
+                                    <tr>
+                                        <td><?=$col3->id;?></td>
+                                        <td>
+                                            <a href="/admin/shop/<?=$col3->id;?>/edit"
+                                                class="btn btn-primary btn-action">
+                                                <i class="fa fa-pencil-alt"></i></a>
+                                            <a href="/admin/shop/<?=$col3->id;?>/delete">
+
+                                                <button class="btn btn-danger btn-action">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td class="d-flex flex-column">
+                                            <span>Họ và tên: <?=$users3->fullname;?></span>
+                                            <span>Username: @<?=$users3->username;?></span>
+                                            <span>Email: <?=$users3->email;?></span>
+                                        </td>
+                                        <td><?=$col3->facebook;?></td>
+                                        <td><?=$col3->zalo;?></td>
+                                        <td><?=$col3->youtube;?></td>
+                                        <td><?=$col3->hotline;?></td>
+                                        <td><?=Shop::status($col3->status);?></td>
+                                        <td><?=timeago($col3->createDate);?></td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../../layouts/footer.phtml';
+include_once __DIR__ . '/../../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../../layouts/end.phtml';
+?>

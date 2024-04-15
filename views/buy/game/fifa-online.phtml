@@ -1,0 +1,136 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml'; 
+include_once __DIR__ . '/../../layouts/navbar.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div data-fetch-key="0">
+            <h2 class="page-title d-flex align-items-center mb-2"><img height="30" title="Logo Fifa Online"
+                    alt="Logo Fifa Online" src="https://cdn.trumacc.vn/public/categories/fifa.jpg" class="rounded">
+                <span class="ps-2">Tài Khoản Fifa Online</span>
+            </h2>
+            <p class="text-secondary fs-13">
+                Danh mục tài khoản Fifa Online.
+            </p>
+            <!-- <div class="ta-filter mb-1">
+                <form action="">
+                    <div class="row align-items-center">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="input-group"><span class="input-group-text">Sắp xếp</span> <select
+                                        class="form-control">
+                                        <option value="">Mới nhất</option>
+                                        <option value="oldest">Cũ nhất</option>
+                                        <option value="price_asc">Giá thấp đến cao</option>
+                                        <option value="price_desc">Giá cao đến thấp</option>
+                                    </select></div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="input-group"><span class="input-group-text">Giá tiền</span> <select
+                                        class="form-control">
+                                        <option value="50000">Từ 50k</option>
+                                        <option value="100000">Từ 100k</option>
+                                        <option value="150000">Từ 150k</option>
+                                        <option value="200000">Từ 200k</option>
+                                        <option value="300000">Từ 300k</option>
+                                        <option value="500000">Từ 500k</option>
+                                        <option value="1000000">Trên 1 triệu</option>
+                                        <option value="5000000">Trên 5 triệu</option>
+                                        <option value="10000000">Trên 10 triệu</option>
+                                        <option value="">Tất cả mức giá</option>
+                                    </select></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 align-self-end">
+                            <div class="form-group"><button class="btn btn-main w-100"><i class="fal fa-search"></i> Tìm
+                                    kiếm
+                                </button></div>
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+            <div class="ta-filter-account">
+                <div> 
+                    <?php if(empty(FIFA::total())):?>
+                    <div class="img text-center pb-3"><img height="200" alt="" src="/img/tracking.png"></div>
+                    <div class="alert alert-primary">
+                        Không tìm thấy tài khoản nào, bạn tới <a href="/" class="fw-bold nuxt-link-active">trang
+                            chủ</a>
+                        để xem nhiều tài khoản hơn nha.
+                    </div>
+                    <?php endif;?>
+                    <div class="row">
+
+                        <?php foreach (Account::all(['game' => 'fifa-online', 'status' => 'available', 'sell' => 0]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-warning">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Giá trị đội hình</span> <span
+                                                        class="value"><?=$key->squad_value;?>
+                                                        tỷ</span></li>
+                                                <li><span class="key">BP Trắng</span> <span
+                                                        class="value"><?=$key->bpwhite;?> tỷ</span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-fifa-online/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php include_once __DIR__ . '/../../layouts/footer.phtml';  ?>
+<?php include_once __DIR__ . '/../../layouts/script.phtml'; ?>
+<?php include_once __DIR__ . '/../../layouts/end.phtml'; ?>

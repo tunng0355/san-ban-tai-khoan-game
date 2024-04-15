@@ -1,0 +1,87 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="mb-3"><a href="/cong-dong" class="text-dark fw-bold nuxt-link-active"><i
+                            class="fad fa-angle-double-left"></i> Trở lại Cộng Đồng
+                    </a></div>
+                <div class="post shadow-sm bg-white rounded mb-3 border">
+                    <div class="post-context p-3">
+                        <div class="post-header">
+                            <div class="user mb-2">
+                                <div class="avatar"><img height="42" alt=""
+                                        class="rounded-circle ta-lz-load ta-lz-loaded" src="<?=$users->avatar;?>">
+                                </div>
+                                <div class="info ps-2">
+                                    <h4 class="fs-15 mb-0"><a href="/shop/<?=$users->username;?>" class="">
+                                            <span class="name"><?=$users->fullname;?></span></a>
+                                        <?php if($users->level == 4):?>
+                                        <span><i class="fad fa-shield text-primary"></i></span>
+                                        <?Php endif;?>
+                                    </h4> <a href="/cong-dong/post/<?=$post->id;?>"
+                                        class="text-secondary hover-line fs-13">
+                                        <?=timeago($post->createDate);?>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <div class="dropdown"><button type="button" data-bs-toggle="dropdown"
+                                        data-bs-display="static" aria-expanded="false"
+                                        class="btn btn-light btn-action"><i class="fa fa-ellipsis-h"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end mt-2">
+                                        <!---->
+                                        <li>
+                                            <a href="javascript:void(0)"
+                                                onclick="copy('<?=base_url();?>/cong-dong/post/<?=$post->id;?>')"
+                                                class="dropdown-item text-secondary"><i class="fad fa-link"></i> Sao
+                                                chép liên kết
+                                            </a>
+                                        </li>
+                                        <!---->
+                                        <!---->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="post-content my-2 fs-14"><?=$post->content;?></p>
+                    </div>
+                    <div class="post-action border-top border-bottom">
+                        <div class="action like cursor-pointer"><i class="fal fa-heart"></i> <b class="count">0</b>
+                            <span class="text">Thích</span>
+                        </div>
+                        <div class="action"><i class="fal fa-comment"></i> <b class="count">0</b> <span
+                                class="text">Bình luận</span></div>
+                        <div class="action cursor-pointer"><i class="fal fa-share"></i> <span class="text">Chia
+                                sẻ</span></div>
+                    </div>
+                    <div class="my-comment p-3 pt-3">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar">
+                                <img height="38" alt="" class="rounded-circle ta-lz-load ta-lz-loaded"
+                                    src="<?=(Auth::check()) ? Auth::user()->avatar :'/default_avatar.png' ?> ">
+                            </div>
+                            <div class="comment ps-2 w-100">
+                                <form action="">
+                                    <div class="input-group"><input type="search"
+                                            placeholder="Nhập nội dung bình luận..." required="required"
+                                            class="form-control d-inline-block"> <button
+                                            class="ta-submit btn btn-main fs-12"><i
+                                                class="fad fa-paper-plane"></i></button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

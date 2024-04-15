@@ -1,0 +1,888 @@
+
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="shop-profile">
+        <!---->
+        <div class="py-3 border-bottom">
+            <div class="ta-container">
+                <div class="d-flex shop-context">
+                    <div class="d-flex align-items-center shop-header">
+                        <div class="avatar"><img title="Ảnh đại diện duogxaolin" alt="Ảnh đại diện duogxaolin"
+                                class="rounded-circle img-thumbnail shadow-sm" src="<?=$users->avatar;?>">
+                        </div>
+                        <div class="info ps-3 pt-2 pt-sm-0">
+                            <h2 class="name mb-1 fw-bold"><?=$users->fullname;?></h2>
+                            <div class="username fs-14 text-muted">@<?=$users->username;?></div>
+                            <div class="social pt-2">
+                                <?php if(!empty($shop->facebook)):?>
+                                <a href="<?=$shop->facebook;?>" target="_blank">
+                                    <img height="30" alt="" class="ta-lz-load ta-lz-loaded"
+                                        src="/img/facebook.png">
+                                </a>
+                                <?php endif;?>
+                                <?php if(!empty($shop->zalo)):?>
+                                <a href="https://zalo.me/<?=$shop->zalo;?>" target="_blank">
+                                    <img height="30" alt="" class="ta-lz-load ta-lz-loaded"
+                                        src="/img/zalo.png">
+                                </a>
+                                <?php endif;?>
+                                <?php if(!empty($shop->facebook)):?>
+                                <div class="d-block d-sm-inline mt-3 mt-sm-0">
+                                    <button class="btn btn-info btn-sm text-white fs-13"><i
+                                            class="fal fa-phone fa-rotate-90"></i> <?=$shop->hotline;?>
+                                    </button>
+                                </div>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="bio fs-14 mb-0 mt-0 mt-sm-3 text-pre-wrap text-main"><?=$shop->content;?></p>
+            </div>
+        </div>
+        <div class="ta-container pt-3">
+            <div class="shop-navigation">
+                <div class="row gx-sm-3 gx-2">
+                    <div class="col-4">
+                        <div class="profile-navigation home active"><a href="/shop/<?=$users->username;?>"
+                                class="nuxt-link-exact-active nuxt-link-active" aria-current="page"><i
+                                    class="fad fa-home"></i> <span class="text">Trang chủ</span></a></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="profile-navigation review"><a href="/shop/<?=$users->username;?>/reviews"
+                                class=""><i class="fad fa-star"></i> <span class="text">Đánh giá</span></a></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="profile-navigation community"><a href="/shop/<?=$users->username;?>/community"
+                                class=""><i class="fad fa-flag"></i> <span class="text">Cộng đồng</span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ta-container pt-3">
+            <h4 class="mb-2 fw-bold fs-18">Giao dịch tại Shop</h4>
+            <div class="marquee-text-wrap">
+                <div class="marquee-text-content">
+                    <div class="marquee-text-text" style="animation-duration: 44s;">
+                        <?php foreach ($buy as $marquee):?>
+                        <?php $User = DB::connect()->find("users",['uid'=>$marquee->UserID])->get(); ?>
+                        <?php $Shopx = DB::connect()->find("shop",['id'=>$marquee->ShopID])->get(); ?>
+                        <?php $ShopUser = DB::connect()->find("users",['uid'=>$Shopx->UserID])->get(); ?>
+                        <div class="py-1 px-2 mx-2 rounded fs-13 d-inline-block bg-light border border-gray"><img
+                                height="25" width="29" alt="" class="rounded-circle pe-1" src="<?=$User->avatar;?>">
+                            <b><?=$User->fullname;?></b> đã mua tài khoản <b><?=Game::type($marquee->game);?>
+                                #<?=$marquee->id;?></b> tại Shop <a href="/shop/<?=$ShopUser->username;?>"
+                                class="fw-bold"><?=$ShopUser->fullname;?></a> với giá <b
+                                class="text-teal"><?=format_number($marquee->price);?>đ</b>
+                        </div>
+                        <?php endforeach;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="ta-container pt-3">
+                <h4 class="page-title">Danh mục tài khoản</h4>
+                <div class="row">
+                    <!---->
+                    <!---->
+                    <!---->
+                    <?php foreach ($account as $game):?>
+                    <div class="col-xl-3 col-md-4 col-sm-6 col-12">
+                        <div
+                            class="shop-categories mb-2 mb-sm-3 d-flex align-items-center justify-content-between bg-light p-2 border rounded position-relative">
+                            <div class="group d-flex align-items-center">
+                                <div class="img"><img height="50" title="Logo <?=Game::type($game->game);?>"
+                                        alt="Logo <?=Game::type($game->game);?>" class="rounded"
+                                        src="/categories/<?=$game->game;?>.jpg"></div>
+                                <div class="info ps-2">
+                                    <h4 class="name fs-15 fw-bold mb-0"><?=Game::type($game->game);?></h4> <span
+                                        class="fs-13 text-muted">
+                                        Hiện có:
+                                        <?=DB::connect()->num_rows("account",['game'=>$game->game,'ShopID'=>$shop->id,'sell'=>0])->get();?>
+                                    </span>
+                                </div>
+                            </div> 
+
+                            <a href="/shop/<?=$users->username;?>?tai-khoan=<?=$game->game;?>"
+                                class="stretched-link text-primary"><i class="fad fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+                    <!---->
+                    <!---->
+                    <!---->
+                    <!---->
+                    <!---->
+                    <!---->
+                    <!---->
+                    <!---->
+                </div>
+            </div>
+            <div class="ta-container pt-2 lasted-accounts">
+                <div>
+                    <h4 class="page-title">Các tài khoản gần đây</h4>
+                </div>
+                <div class="min-h-400 pb-4">
+                    <div class="row">
+                        <?php foreach (Account::all(['game' => 'lien-quan', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-primary">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Tướng</span> <span
+                                                        class="value"><?=$key->tuong;?></span></li>
+                                                <li><span class="key">Trang phục</span> <span
+                                                        class="value"><?=$key->skin;?></span>
+                                                </li>
+                                                <li><span class="key">Hạng</span> <span
+                                                        class="value"><?=LienQuan::rank($key->rank);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-lien-quan/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'free-fire', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-primary">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1; $m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Skin súng</span> <span
+                                                        class="value"><?=$key->skin;?></span></li>
+                                                <li><span class="key">Thẻ vô cực</span> <span
+                                                        class="value"><?=$key->thevocuc;?></span>
+                                                </li>
+                                                <li><span class="key">Hạng</span> <span
+                                                        class="value"><?=FreeFire::rank($key->rank);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-free-fire/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'roblox', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-info">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Thể loại</span> <span
+                                                        class="value"><?=Roblox::Category($key->category);?></span></li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-roblox/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'genshin-impact', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-info">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Server</span> <span
+                                                        class="value"><?=GenshinImpact::server($key->server);?></span>
+                                                </li>
+                                                <li><span class="key">AR</span> <span
+                                                        class="value"><?=$key->ar;?></span></li>
+                                                <li><span class="key">Nhân vật</span> <span
+                                                        class="value"><?=$key->nv;?></span></li>
+                                                <li><span class="key">Vũ khí</span> <span
+                                                        class="value"><?=$key->vk;?></span></li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-genshin-impact/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'ngoc-rong-online', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-secondary">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Hành Tinh</span> <span
+                                                        class="value"><?=NgocRong::planet($key->planet);?></span>
+                                                </li>
+                                                <li><span class="key">Server</span> <span
+                                                        class="value"><?=NgocRong::server($key->server);?></span>
+                                                </li>
+                                                <li><span class="key">Bông Tai</span> <span
+                                                        class="value"><?=NgocRong::earring($key->earring);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-ngoc-rong-online/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'fifa-online', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-warning">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Giá trị đội hình</span> <span
+                                                        class="value"><?=$key->squad_value;?>
+                                                        tỷ</span></li>
+                                                <li><span class="key">BP Trắng</span> <span
+                                                        class="value"><?=$key->bpwhite;?> tỷ</span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-fifa-online/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'dot-kich', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-danger">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Chuyên</span> <span
+                                                        class="value"><?=DotKich::chuyen($key->chuyen);?>
+                                                        tỷ</span></li>
+                                                <li><span class="key">Số VIP</span> <span
+                                                        class="value"><?=$key->VIPnumber;?> tỷ</span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-dot-kich/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'pubg-mobile', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-dark">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Skin súng</span> <span
+                                                        class="value"><?=$key->skin;?></span></li>
+                                                <li><span class="key">Trang phục</span> <span
+                                                        class="value"><?=$key->fashion;?></span></li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-pubg-mobile/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'lien-minh', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-success">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Tướng</span> <span
+                                                        class="value"><?=$key->tuong;?></span></li>
+                                                <li><span class="key">Trang phục</span> <span
+                                                        class="value"><?=$key->skin;?></span>
+                                                </li>
+                                                <li><span class="key">Hạng</span> <span
+                                                        class="value"><?=LienQuan::rank($key->rank);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-lien-minh/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'toc-chien', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-success">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Tướng</span> <span
+                                                        class="value"><?=$key->tuong;?></span></li>
+                                                <li><span class="key">Trang phục</span> <span
+                                                        class="value"><?=$key->skin;?></span>
+                                                </li>
+                                                <li><span class="key">Hạng</span> <span
+                                                        class="value"><?=LienQuan::rank($key->rank);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-toc-chien/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'zing-speed-mobile', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-primary">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Giới tính</span> <span
+                                                        class="value"><?=ZingSpeed::sex($key->sex);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-zing-speed-mobile/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <?php foreach (Account::all(['game' => 'play-together', 'status' => 'available', 'sell' => 0,'ShopID'=>$shop->id]) as $acc): ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6">
+                            <div class="ta-account mb-4 shadow-sm position-relative"><span
+                                    class="ta-account-id bg-info">#<?=$acc->MTK;?></span>
+                                <div class="thumbnail position-relative">
+                                    <div id="account-carousel-<?=$acc->MTK;?>" class="carousel slide">
+
+                                        <div class="carousel-inner">
+                                            <?php $i = 1;$m = 1;foreach (json_decode($acc->images) as $img): ?>
+                                            <div class="carousel-item active"><img
+                                                    title="Ảnh <?=$i++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    alt="Ảnh <?=$m++;?> tài khoản <?=Game::type($acc->game);?> #<?=$acc->MTK;?>"
+                                                    class="w-100 mh-100" src="<?=$img;?>">
+                                            </div>
+                                            <?php endforeach;?>
+                                        </div>
+                                        <button type="button" data-bs-target="#account-carousel-<?=$acc->MTK;?>"
+                                            data-bs-slide="prev" class="carousel-control-prev"><i
+                                                class="fal fa-arrow-circle-left"></i></button> <button type="button"
+                                            data-bs-target="#account-carousel-<?=$acc->MTK;?>" data-bs-slide="next"
+                                            class="carousel-control-next"><i
+                                                class="fal fa-arrow-circle-right"></i></button>
+                                    </div> <span class="description text-truncate"><?=$acc->describe;?></span>
+                                </div>
+                                <div class="info position-relative">
+                                    <div class="p-2">
+                                        <?php $shop = DB::connect()->find('shop', ['id' => $acc->ShopID])->get();?>
+                                        <?php $User = DB::connect()->find('users', ['uid' => $shop->UserID])->get();?>
+                                        <div class="seller"><a href="/shop/<?=$User->username;?>"
+                                                class="d-flex align-items-center">
+                                                <div class="avatar"><img alt="" class="rounded-circle"
+                                                        src="<?=$User->avatar;?>">
+                                                </div> <span class="name fs-13 text-main"><?=$User->fullname;?></span>
+                                            </a> <span class="time fs-12 text-muted"><i class="fad fa-clock"></i>
+                                                <?=timeago($acc->createDate);?>
+                                            </span></div>
+                                        <div class="fields">
+                                            <ul class="ps-0 mb-0">
+                                                <?php $key = json_decode($acc->data);?>
+                                                <li><span class="key">Thời trang</span> <span
+                                                        class="value"><?=PlayTogether::fashion($key->fashion);?></span>
+                                                </li>
+                                                <li><span class="key">Thông tin</span> <span
+                                                        class="value"><?=Game::info($acc->info);?></span></li>
+                                                <li><span class="key">Đăng nhập</span> <span
+                                                        class="value"><?=$acc->login;?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center view-account bg-main"><a
+                                            href="/tai-khoan-play-together/<?=$acc->id;?>"
+                                            class="fs-14 d-block py-2 stretched-link text-white"><i
+                                                class="fal fa-usd-circle"></i>
+                                            <strong><?=format_number2($acc->price);?>đ</strong></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

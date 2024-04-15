@@ -1,0 +1,296 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml'; 
+include_once __DIR__ . '/../layouts/navbar.phtml'; 
+// include_once __DIR__ . '/../layouts/menu.phtml'; 
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="text-end mb-3">
+                        <button class="btn btn-primary px-3" id="createpost">
+                            <i class="fa fa-plus-circle"></i>
+                            Tạo bài viết
+                        </button>
+                    </div>
+                    <div class="author-post p-3 mb-3 shadow-sm rounded d-none">
+                        <?php if(Auth::check()):?>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="avatar"><img height="42" alt="" class="rounded-circle"
+                                    src="<?=Auth::user()->avatar;?>">
+                            </div>
+                            <div class="ps-2">
+                                <h4 class="fs-15 mb-0"><?=Auth::user()->fullname;?></h4> <span
+                                    class="text-secondary fs-13">Bây giờ</span>
+                            </div>
+                        </div>
+                        <?php else:?>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="avatar"><img height="42" alt="" class="rounded-circle"
+                                    src="/default_avatar.png">
+                            </div>
+                            <div class="ps-2">
+                                <h4 class="fs-15 mb-0">Anonymous</h4> <span class="text-secondary fs-13">Bây giờ</span>
+                            </div>
+                        </div>
+                        <?Php endif;?>
+                        <div class="author-post-content">
+                            <form action="/api/profile/post" method="POST">
+                                <div class="form-group">
+                                    <textarea rows="1" placeholder="Nội dung bài viết..." name="content"
+                                        required="required"
+                                        class="form-control border-0 shadow-none rounded-0 p-0 fs-18 overflow-hidden"
+                                        cols="50"></textarea>
+                                </div>
+                                <button type="submit" class="ta-submit btn btn-main fs-12 btn-sm px-3 fw-bold me-1">Đăng
+                                    bài</button>
+                                <button type="button" class="btn btn-light fs-12 btn-sm px-3 fw-bold"
+                                    id="removepost">Hủy bỏ</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 d-flex flex-column-reverse" id="post">
+                    <?php foreach($post as $item):?>
+                    <?Php $users = DB::connect()->find("users",['uid'=>$item->UserID])->get();?>
+                    <div class="post shadow-sm bg-white rounded mb-3 border">
+                        <div class="post-context p-3">
+                            <div class="post-header">
+                                <div class="user mb-2">
+                                    <div class="avatar"><img height="42" alt=""
+                                            class="rounded-circle ta-lz-load ta-lz-loaded" src="<?=$users->avatar;?>">
+                                    </div>
+                                    <div class="info ps-2">
+                                        <h4 class="fs-15 mb-0"><a href="/shop/<?=$users->username;?>" class="">
+                                                <span class="name"><?=$users->fullname;?></span></a>
+                                            <?php if($users->level == 4):?>
+                                            <span><i class="fad fa-shield text-primary"></i></span>
+                                            <?Php endif;?>
+                                        </h4> <a href="/cong-dong/post/<?=$item->id;?>"
+                                            class="text-secondary hover-line fs-13">
+                                            <?=timeago($item->createDate);?>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="action">
+                                    <div class="dropdown"><button type="button" data-bs-toggle="dropdown"
+                                            data-bs-display="static" aria-expanded="false"
+                                            class="btn btn-light btn-action"><i class="fa fa-ellipsis-h"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                                            <!---->
+                                            <li>
+                                                <a href="javascript:void(0)"
+                                                    onclick="copy('<?=base_url();?>/cong-dong/post/<?=$item->id;?>')"
+                                                    class="dropdown-item text-secondary"><i class="fad fa-link"></i> Sao
+                                                    chép liên kết
+                                                </a>
+                                            </li>
+                                            <!---->
+                                            <!---->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="post-content my-2 fs-14"><?=$item->content;?></p>
+                        </div>
+                        <div class="post-action border-top border-bottom">
+                            <div class="action like cursor-pointer"><i class="fal fa-heart"></i> <b class="count">0</b>
+                                <span class="text">Thích</span>
+                            </div>
+                            <div class="action"><i class="fal fa-comment"></i> <b class="count">0</b> <span
+                                    class="text">Bình luận</span></div>
+                            <div class="action cursor-pointer"><i class="fal fa-share"></i> <span class="text">Chia
+                                    sẻ</span></div>
+                        </div>
+                        <!---->
+                        <div class="my-comment p-3 pt-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar">
+                                    <img height="38" alt="" class="rounded-circle ta-lz-load ta-lz-loaded"
+                                        src="<?=(Auth::check()) ? Auth::user()->avatar :'/default_avatar.png' ?> ">
+                                </div>
+                                <div class="comment ps-2 w-100">
+                                    <form action="">
+                                        <div class="input-group"><input type="search"
+                                                placeholder="Nhập nội dung bình luận..." required="required"
+                                                class="form-control d-inline-block"> <button
+                                                class="ta-submit btn btn-main fs-12"><i
+                                                    class="fad fa-paper-plane"></i></button></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+
+
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php 
+include_once __DIR__ . '/../layouts/footer.phtml'; 
+include_once __DIR__ . '/../layouts/script.phtml'; 
+?>
+    <script>
+    $("textarea").each(function() {
+        this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function() {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+    });
+    $("#createpost").click(function(e) {
+        $(".author-post").toggleClass('d-none');
+    });
+    $("#removepost").click(function(e) {
+        $(".author-post").addClass('d-none');
+    });
+
+    $("form").submit(function(e) {
+        e.preventDefault();
+        var button = $(this).find('button[type=submit]');
+        let textButton = $(this).find('button[type=submit]').html().trim();
+
+        $.ajax({
+            type: $(this).attr("method"),
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            dataType: "json",
+            statusCode: {
+                403: function() {
+                    noti("error", "Đường dẫn API không chính xác");
+                },
+                404: function() {
+                    noti("error", "Đường dẫn API không chính xác");
+                },
+                500: function() {
+                    noti("danger", "500 status code! server error");
+                },
+                400: function(response) {
+                    let data = JSON.parse(response.responseText);
+                    if (!data && data == "undefined") {
+                        noti("error", "Không thể lấy dữ liệu");
+                    } else {
+                        if (data.href) {
+                            setInterval(() => {
+                                window.location.href = data.href;
+                            }, 700);
+                        }
+                        noti(data.status, data.message);
+                    }
+                },
+                401: function(response) {
+                    let data = JSON.parse(response.responseText);
+                    if (!data && data == "undefined") {
+                        noti("error", "Không thể lấy dữ liệu");
+                    } else {
+                        if (data.href) {
+                            setInterval(() => {
+                                window.location.href = data.href;
+                            }, 700);
+                        }
+                        noti(data.status, data.message);
+                    }
+                }
+            },
+            beforeSend: function() {
+                $("body").append(
+                    `<div class="ta-loader"><div role="status" class="spinner-border text-main" style="width: 3.5rem; height: 3.5rem; animation-duration: 0.8s; border-width: 0.35em;"><span class="sr-only">Loading...</span></div></div>`
+                );
+
+                button
+                    .prop("disabled", !0)
+                    .html('<i class="fas fa-spinner fa-spin"></i> Đang tải...');
+            },
+            complete: function() {
+                button.prop("disabled", !1).html(textButton);
+                $(`.ta-loader`).remove();
+            },
+            success: (data) => {
+                if (!data && data == "undefined") {
+                    noti("error", "Không thể lấy dữ liệu");
+                } else {
+                    if (data.href) {
+                        setInterval(() => {
+                            window.location.href = data.href;
+                        }, 700);
+                    }
+
+                    if (data.status == 'success') {
+                        $("#post").append(`
+                    <div class="post shadow-sm bg-white rounded mb-3 border">
+                        <div class="post-context p-3">
+                            <div class="post-header">
+                                <div class="user mb-2">
+                                    <div class="avatar"><img height="42" alt=""
+                                            class="rounded-circle ta-lz-load ta-lz-loaded" src="${data.post.avatar}">
+                                    </div>
+                                    <div class="info ps-2">
+                                        <h4 class="fs-15 mb-0"><a href="/shop/${data.post.username}" class=""><span
+                                                    class="name">${data.post.fullname}</span></a>
+                                                    ${data.post.tick}
+                                                    
+                                                    </h4> <a
+                                            href="/cong-dong/post/${data.post.id}" class="text-secondary hover-line fs-13">
+                                            ${data.post.createDate}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="action">
+                                    <div class="dropdown"><button type="button" data-bs-toggle="dropdown"
+                                            data-bs-display="static" aria-expanded="false"
+                                            class="btn btn-light btn-action"><i class="fa fa-ellipsis-h"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                                            <!---->
+                                            <li><a  href="javascript:void(0)" onclick="copy('${location.origin}/cong-dong/post/${data.post.id}')" class="dropdown-item text-secondary"><i
+                                                        class="fad fa-link"></i> Sao chép liên kết
+                                                </a></li>
+                                            <!---->
+                                            <!---->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="post-content my-2 fs-14">${data.post.content}</p>
+                        </div>
+                        <div class="post-action border-top border-bottom">
+                            <div class="action like cursor-pointer"><i class="fal fa-heart"></i> <b class="count">0</b>
+                                <span class="text">Thích</span>
+                            </div>
+                            <div class="action"><i class="fal fa-comment"></i> <b class="count">0</b> <span
+                                    class="text">Bình luận</span></div>
+                            <div class="action cursor-pointer"><i class="fal fa-share"></i> <span class="text">Chia
+                                    sẻ</span></div>
+                        </div>
+                        <!---->
+                        <div class="my-comment p-3 pt-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar">
+                                    <img height="38" alt="" class="rounded-circle ta-lz-load ta-lz-loaded"
+                                        src="<?=(Auth::check()) ? Auth::user()->avatar :'/default_avatar.png' ?> ">
+                                </div>
+                                <div class="comment ps-2 w-100">
+                                    <form action="">
+                                        <div class="input-group"><input type="search"
+                                                placeholder="Nhập nội dung bình luận..." required="required"
+                                                class="form-control d-inline-block"> <button
+                                                class="ta-submit btn btn-main fs-12"><i
+                                                    class="fad fa-paper-plane"></i></button></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`);
+                    }
+                    noti(data.status, data.message);
+                }
+            },
+        });
+    })
+    </script>
+    <?php
+include_once __DIR__ . '/../layouts/end.phtml'; 
+?>

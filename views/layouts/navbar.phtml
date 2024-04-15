@@ -1,0 +1,120 @@
+    <!---->
+    <nav class="ta-navbar navbar navbar-expand-lg sticky-top navbar-white bg-white shadow-sm">
+        <div class="container-fluid ta-container">
+            <div class="d-flex align-items-center">
+                <button type="button" aria-label="Toggle navigation" class="navbar-toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="/" class="navbar-brand fw-bold d-flex align-items-center nuxt-link-active">
+                    <img height="27" alt="trumacc logo" src="<?=Setting::find("logo");?>">
+                </a>
+                <ul class="navbar-nav dropdown-profile">
+                    <?php if(Auth::check()): ?>
+                    <li class="nav-item dropdown bg-light rounded">
+                        <a href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static"
+                            aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center">
+                            <img alt="" src="<?=Auth::user()->avatar;?>"
+                                class="img-navbar rounded-circle shadow-sm me-1">
+                            <span class="px-0 px-sm-1 lh-0 fs-13">
+                                <span class="text-muted d-none d-sm-inline"><?=Auth::user()->fullname;?> -
+                                </span>
+                                <span class="fw-bold text-teal px-1 px-sm-0">
+                                    <span data-v-0abbdf5a=""><?=format_number2(Auth::user()->money);?></span>đ</span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a href="/thong-tin" class="dropdown-item">
+                                    <i class="fal fa-user-circle"></i>
+                                    <span>Thông tin</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/nap-tien" class="dropdown-item" aria-current="page">
+                                    <i class="fal fa-wallet"></i>
+                                    <span>Nạp tiền</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/nap-the-cao" class="dropdown-item">
+                                    <i class="fal fa-credit-card-blank"></i>
+                                    <span>Nạp thẻ cào</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/orders" class="dropdown-item">
+                                    <i class="fal fa-tag"></i>
+                                    <span>Tài khoản đã mua</span>
+                                </a>
+                            </li>
+                            <hr class="dropdown-divider">
+                            <li>
+                                <a href="<?=(!empty(Auth::user()->shop)) ? '/seller' : '/mo-shop';?>"
+                                    class="dropdown-item">
+                                    <i class="fal fa-store-alt"></i>
+                                    <span><?=(!empty(Auth::user()->shop)) ? 'Quản lý shop' : 'Mở Shop kinh doanh';?></span>
+                                </a>
+                            </li>
+                            <?php if(Auth::user()->level == 4): ?>
+                            <hr class="dropdown-divider">
+                            <li>
+                                <a href="/admin/dashboard" class="dropdown-item">
+                                    <i class="fal fa-hammer"></i>
+                                    <span>Quản lý website</span>
+                                </a>
+                            </li>
+                            <?php endif;?>
+                            <!---->
+                            <!---->
+                            <hr class="dropdown-divider">
+                            <li>
+                                <a href="/dang-xuat" class="dropdown-item">
+                                    <i class="fal fa-sign-out"></i>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php else:?>
+                    <li class="nav-item p-0">
+                        <a href="/dang-nhap" class="btn btn-main btn-sm py-2 text-white px-3 fs-12">
+                            <i class="fal fa-user-circle pe-1"></i> Đăng nhập <span class="d-none d-sm-inline">tài
+                                khoản</span>
+                        </a>
+                    </li>
+                    <?php endif;?>
+
+                </ul>
+
+
+            </div>
+            <div class="collapse navbar-collapse my-2 mt-lg-0 mb-1 mb-lg-0">
+                <ul class="navbar-nav navbar-main me-auto">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link"><i class="fal text-dark fa-home"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/nap-tien" class="nav-link" aria-current="page"><i class="fal text-dark fa-wallet"></i>
+                            Nạp tiền
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/nap-the-cao" class="nav-link"><i class="fal text-dark fa-credit-card-blank"></i>
+                            Nạp thẻ cào
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/cong-dong" class="nav-link"><i class="fal text-dark fa-flag"></i>
+                            Cộng đồng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/shop" class="nav-link"><i class="fal text-dark fa-store-alt"></i>
+                            Shop
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>

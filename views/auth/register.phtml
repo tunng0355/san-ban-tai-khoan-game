@@ -1,0 +1,70 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml';
+include_once __DIR__ . '/../layouts/navbar.phtml';
+// include_once __DIR__ . '/../layouts/menu.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div class="row">
+            <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-6 offset-md-3">
+                <div class="card pb-1 border">
+                    <div class="card-body">
+                        <h5 class="card-title">Đăng ký tài khoản</h5>
+                        <div>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <a href="" class="btn btn-light btn-social text-start mb-2">
+                                        <div class="icon">
+                                            <img height="25" alt=""
+                                                src="https://cdn.hassbase.com/imgs/social-icon/google.png">
+                                        </div>
+                                        <span class="fs-14">Đăng ký với Google</span>
+                                        <i class="fal fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                                <div class="col-12">
+                                    <a href="" class="btn btn-light btn-social text-start mb-2">
+                                        <div class="icon">
+                                            <img height="25" alt=""
+                                                src="https://cdn.hassbase.com/imgs/social-icon/zalo.png">
+                                        </div>
+                                        <span class="fs-14">Đăng ký với Zalo</span>
+                                        <i class="fal fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <form action="/api/register" method="POST" next>
+                                <div class="form-group">
+                                    <label for="">Tài khoản:</label>
+                                    <input type="text" required="required" name="username" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Địa chỉ Email:</label>
+                                    <input type="email" required="required" name="email" class="form-control">
+                                </div>
+                                <div class="form-group"><label for="">Mật khẩu:</label>
+                                    <input type="password" required="required" name="password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Nhập lại mật khẩu:</label>
+                                    <input type="password" required="required" name="confirm_password"
+                                        class="form-control">
+                                </div>
+                                <button class="ta-submit btn btn-main w-100 text-uppercase" type="submit">Đăng ký tài
+                                    khoản</button>
+                                <span class="d-block text-secondary text-center fs-12 py-2 divider"></span>
+                                <a href="/dang-nhap" class="text-primary text-center fw-bold d-block fs-14">
+                                    Đã có tài khoản? Đăng nhập
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+include_once __DIR__ . '/../layouts/end.phtml';
+?>

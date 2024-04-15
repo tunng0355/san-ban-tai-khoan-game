@@ -1,0 +1,99 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml';
+include_once __DIR__ . '/../../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Bảng điều khiển</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/../menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="/admin/bank" class="d-block text-primary fs-14 fw-bold pb-3">
+                                <i class="fa fa-arrow-left"></i> Trở lại
+                            </a>
+                            <h2 class="page-title d-flex align-items-center">
+                                <img height="30" width="30" title="<?=$bank->bank;?>" alt="<?=$bank->bank;?>"
+                                    class="rounded" src="/bank/<?=$bank->bank;?>.png">
+                                <span class="ps-2"><?=$bank->bank;?></span>
+                            </h2>
+                            <div>
+                                <form action="/api/admin/bank/<?=$bank->id;?>/edit" method="POST" next>
+                                    <div class="form-group">
+                                        <label for="">Số tài khoản:</label>
+                                        <input type="text" placeholder="0123456789" name="stk" value="<?=$bank->stk;?>"
+                                            required="required" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Chủ tài khoản:</label>
+                                        <input type="text" placeholder="NGUYEN VAN A" value="<?=$bank->ctk;?>"
+                                            name="ctk" required="required" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Qrcode ( Nếu có):</label>
+                                        <input type="text" placeholder="Có thể bỏ trống" value="<?=$bank->qrcode;?>"
+                                            name="qrcode" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Ngân hàng:</label>
+                                        <select class="form-control" name="bank">
+                                            <option value="shopeepay"
+                                                <?=($bank->status == "shopeepay") ? "selected" : "";?>>
+                                                Shopee Pay - Ví điện tử Shopee Pay
+                                            </option>
+                                            <option value="momo" <?=($bank->status == "momo") ? "selected" : "";?>>
+                                                Momo - Ví điện tử Momo
+                                            </option>
+                                            <option value="zalopay" <?=($bank->status == "zalo") ? "selected" : "";?>>
+                                                ZaloPay - Ví điện tử ZaloPay
+                                            </option>
+                                            <option value="vietcombank"
+                                                <?=($bank->status == "vietcombank") ? "selected" : "";?>>
+                                                Vietcombank - Ngân hàng TMCP Ngoại Thương Việt Nam
+                                            </option>
+                                            <option value="mb" <?=($bank->status == "mb") ? "selected" : "";?>>
+                                                MBBank - Ngân hàng TMCP Quân đội
+                                            </option>
+                                            <option value="acb" <?=($bank->status == "abc") ? "selected" : "";?>>
+                                                ACB - Ngân hàng TMCP Á Châu
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Trạng thái:</label>
+                                        <select class="form-control" name="status">
+                                            <option value="active" <?=($bank->status == "active") ? "selected" : "";?>>
+                                                Hoạt động
+                                            </option>
+                                            <option value="maintenance"
+                                                <?=($bank->status == "maintenance") ? "selected" : "";?>>
+                                                Bảo trì
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <button class="ta-submit btn btn-main w-100 mt-2" type="submit">Lưu thông
+                                        tin</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../../layouts/footer.phtml';
+include_once __DIR__ . '/../../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../../layouts/end.phtml';
+?>

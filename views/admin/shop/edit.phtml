@@ -1,0 +1,74 @@
+<?php include_once __DIR__ . '/../../layouts/head.phtml';
+include_once __DIR__ . '/../../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Bảng điều khiển</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/../menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="/admin/shop" class="d-block text-primary fs-14 fw-bold pb-3">
+                                <i class="fa fa-arrow-left"></i> Trở lại
+                            </a>
+                            <h2 class="page-title d-flex align-items-center">
+                                <img height="30" width="30" title="<?=$users->fullname;?>" alt="<?=$users->fullname;?>"
+                                    class="rounded" src="<?=$users->avatar;?>">
+                                <span class="ps-2"><?=$users->fullname;?></span>
+                            </h2>
+                            <div>
+                                <form action="/api/admin/shop/<?=$shop->id;?>/edit" method="POST" next>
+                                    <div class="form-group">
+                                        <label for="">nội dun:</label>
+                                        <input type="text" class="form-control" name="facebook"
+                                            value="<?=$shop->facebook;?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Zalo:</label>
+                                        <input type="text" class="form-control" name="zalo"
+                                            value="<?=$shop->zalo;?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Số điện thoại:</label>
+                                        <input type="text" class="form-control" name="hotline"
+                                            value="<?=$shop->hotline;?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Tiểu sử:</label>
+                                        <textarea rows="2" class="form-control" name="content"><?=$shop->content;?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Trạng thái:</label> 
+                                        <select
+                                            class="form-control"  name="status" >
+                                            <option value="active" <?=($shop->status == "active")? "selected" : "";?>>Hoạt động</option>
+                                            <option value="pending" <?=($shop->status == "pending")? "selected" : "";?>>Chờ duyệt</option>
+                                            <option value="refuse" <?=($shop->status == "refuse")? "selected" : "";?>>Từ chối</option>
+                                        </select>
+                                    </div> 
+                                    <button class="ta-submit btn btn-main w-100 mt-2" type="submit">Lưu thông
+                                        tin</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../../layouts/footer.phtml';
+include_once __DIR__ . '/../../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+</script>
+<?php
+include_once __DIR__ . '/../../layouts/end.phtml';
+?>

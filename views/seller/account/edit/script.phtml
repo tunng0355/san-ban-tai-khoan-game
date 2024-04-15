@@ -1,0 +1,72 @@
+<script>
+const dt = new DataTransfer()
+
+
+$(function() {
+    $("#foo").click(function() {
+        $('#images').click();
+    })
+    $(`[name="describe"]`).on('input', function() {
+        $("#content").text($(this).val().length);
+    })
+});
+
+function readFile() {
+
+    var file = this.files;
+    if (!file || !file[0]) return
+    var index = 0;
+    var index2 = 0;
+    var index3 = 0;
+    for (let i = 0; i < file.length; i++) {
+        const element = file[i];
+
+        if (element.size > 2097152) {
+            noti('error', 'Kích thước file không được lớn hơn 2MB')
+        }
+
+        if (element.size < 2097152) {
+            const FR = new FileReader();
+
+            dt.items.add(element)
+            console.log(element)
+            $("#images")[0].files = dt.files;
+
+            $("#upload").addClass("filter", "blur(2px)");
+            $("body").append(
+                `<div class="ta-loader"><div role="status" class="spinner-border text-main" style="width: 3.5rem; height: 3.5rem; animation-duration: 0.8s; border-width: 0.35em;"><span class="sr-only">Loading...</span></div></div>`
+            );
+            FR.addEventListener("load", function(evt) {
+                $("#upload").addClass("filter", "blur(0)");
+                $(`.ta-loader`).remove();
+                $("#upload").append(`<div img-id="${index++}" class="col-xl-3 col-md-4 col-sm-6 col-12 dnd-me">
+			<div class="account-images position-relative">
+				<div class="img"><img alt="" class="w-100 rounded ta-lz-load ta-lz-loading"
+						src="${ evt.target.result}">
+				</div> <span class="img-offset">3</span> <button data-img-id="${index2++}" type="button"
+					class="btn btn-danger btn-action remove-images rounded"><i class="fa fa-times"></i></button>
+			</div>
+		</div>`);
+
+
+                $(".remove-images").click(function() {
+                    var data_id = $(this).attr("data-img-id");
+                    $(`[img-id="${data_id}"]`).remove();
+                    dt.items.remove(data_id);
+
+                    $("#images")[0].files = dt.files;
+                })
+
+
+            });
+
+            FR.readAsDataURL(element);
+        }
+    }
+
+
+}
+$(document).ready(function() {
+    document.querySelector("#images").addEventListener("change", readFile);
+});
+</script>

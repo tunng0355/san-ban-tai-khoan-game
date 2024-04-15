@@ -1,0 +1,94 @@
+<?php include_once __DIR__ . '/../layouts/head.phtml';
+include_once __DIR__ . '/../layouts/navbar.phtml';
+?>
+<div class="ta-content">
+    <div class="ta-container py-3 pb-sm-4 pt-sm-3">
+        <div>
+            <h2 class="page-title">Thông tin</h2>
+            <div class="row">
+                <?php include_once __DIR__ . '/menu.phtml';?>
+                <div class="col-lg-9 info-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Thông tin cá nhân</h5>
+                            <form action="/api/profile/change-information" method="POST" next>
+                                <div class="form-group">
+                                    <label for="">Ảnh đại diện:</label>
+                                    <input type="file" id="avatar" name="avatar" class="d-none">
+                                    <div class="avatar-profile">
+                                        <div class="d-inline-block position-relative">
+                                            <div class="update text-center w-auto text-white fs-12 cursor-pointer">
+                                                Sửa
+                                            </div>
+                                            <img height="90" width="90" id="img" alt="" class="rounded ta-lz-load ta-lz-loaded"
+                                                src="<?=Auth::user()->avatar;?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tài khoản:</label>
+                                    <input type="text" class="form-control" name="username"
+                                        value="<?=Auth::user()->username;?>">
+                                    <p class="help-block">* Đổi tên người dùng tối đa <b>1</b> lần.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Email:</label>
+                                    <input type="email" disabled="disabled" class="form-control"
+                                        value="<?=Auth::user()->email;?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Họ và tên:</label>
+                                    <input type="text" class="form-control" name="fullname"
+                                        value="<?=Auth::user()->fullname;?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tham gia:</label>
+                                    <p class="fw-normal fs-14"><?=timeago(Auth::user()->createDate);?></p>
+                                </div>
+                                <button class="ta-submit btn btn-main w-100" type="submit">Cập nhật</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include_once __DIR__ . '/../layouts/footer.phtml';
+include_once __DIR__ . '/../layouts/script.phtml';
+?>
+<script>
+$(function() {
+    $(".update").click(function() {
+        $('input[name="avatar"]').click();
+    })
+    $('.profile-item a[href="' + location.pathname + '"]').addClass('nuxt-link-exact-active nuxt-link-active')
+        .attr("aria-current", "page").parent(1).addClass('active')
+});
+
+
+function readFile() {
+
+    if (!this.files || !this.files[0]) return;
+    if(this.files[0].size > 2097152){
+        noti('error','Kích thước file không được lớn hơn 2MB')
+    }else{
+    const FR = new FileReader();
+    $("img").addClass("filter", "blur(2px)");
+    $("body").append(`<div class="ta-loader"><div role="status" class="spinner-border text-main" style="width: 3.5rem; height: 3.5rem; animation-duration: 0.8s; border-width: 0.35em;"><span class="sr-only">Loading...</span></div></div>`);
+    FR.addEventListener("load", function(evt) {
+        $("img").addClass("filter", "blur(0)");
+        $(`.ta-loader`).remove();
+        document.querySelector("#img").src = evt.target.result;
+    });
+
+    FR.readAsDataURL(this.files[0]);
+    }
+}
+
+document.querySelector("#avatar").addEventListener("change", readFile);
+</script>
+<?php
+include_once __DIR__ . '/../layouts/end.phtml';
+?>
